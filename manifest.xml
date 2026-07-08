@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="1">
+    <!--
+      A Connect IQ data field for bike computers. It polls the UniversalBicycleTeam
+      site for a rider's live standing (place, gaps, laps) and renders one metric.
+      Web requests run only in the background temporal process (min 5 min cadence).
+    -->
+    <iq:application entry="GarminRaceStatsApp" id="3bdb0b5bfb544e4cb9c91bf6c419e1a3" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="datafield">
+        <iq:products>
+            <iq:product id="edge1040"/>
+            <iq:product id="edge1050"/>
+            <iq:product id="edge840"/>
+            <iq:product id="edge540"/>
+            <iq:product id="edge850"/>
+            <iq:product id="edge550"/>
+            <iq:product id="edgeexplore2"/>
+        </iq:products>
+        <iq:permissions>
+            <iq:uses-permission id="Communications"/>
+            <iq:uses-permission id="Background"/>
+        </iq:permissions>
+        <iq:languages>
+            <iq:language>eng</iq:language>
+        </iq:languages>
+    </iq:application>
+</iq:manifest>
