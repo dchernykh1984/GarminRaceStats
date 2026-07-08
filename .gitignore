@@ -1,0 +1,97 @@
+# ===== IDEs =====
+
+# VSCode
+.vscode/
+
+# Zed
+.zed/
+
+# JetBrains (IntelliJ, etc.)
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim / Neovim
+*.swp
+*.swo
+.vim/
+Session.vim
+
+# Emacs
+\#*\#
+.\#*
+
+# ===== AI agents =====
+
+# Claude Code (Anthropic)
+.claude/
+
+# Cursor
+.cursor/
+
+# Windsurf
+.windsurf/
+
+# Gemini CLI
+.gemini/
+
+# Aider
+.aider*
+
+# Continue
+.continue/
+
+# GitHub Copilot
+.copilot/
+
+# ===== Connect IQ / Monkey C =====
+
+# Build output
+bin/
+*.prg
+*.prg.debug.xml
+*.iq
+*.mpn
+
+# Compiler / simulator artifacts
+*.map
+*.opt.mir
+
+# Signing material (never commit). The developer key signs your app and must
+# stay private; CI generates a throwaway one for test builds.
+developer_key
+developer_key.der
+*.der
+*.pem
+
+# ===== Node (Prettier Monkey C tooling) =====
+
+node_modules/
+npm-debug.log*
+
+# ===== Environment variables =====
+
+.env
+.env.*
+
+# ===== Logs =====
+
+*.log
+logs/
+
+# ===== OS =====
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# ===== Temporary files =====
+
+tmp/
+temp/
