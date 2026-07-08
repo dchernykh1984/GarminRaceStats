@@ -2,9 +2,13 @@ name: Release Please
 
 # On every push to main, release-please maintains a "release PR" that bumps the
 # version in version.txt and updates CHANGELOG.md from the Conventional Commits.
-# Merging that PR tags the release and creates a GitHub Release. The signed .iq
-# for the Connect IQ Store is built and uploaded manually (it needs the private
-# developer key), so this workflow only handles versioning and the changelog.
+# Merging that PR tags the release and creates a GitHub Release.
+#
+# A tag/release created with the default GITHUB_TOKEN does NOT trigger the
+# release-triggered Build and Distribute workflow, so instead the build-iq job
+# below calls that workflow directly (workflow_call) once a release is created.
+# This builds and attaches the signed .iq without a PAT or a manual tag re-push.
+# Uploading the .iq to the Connect IQ Store itself stays manual (no publish API).
 on:
   push:
     branches: [main]
@@ -16,7 +20,21 @@ permissions:
 jobs:
   release-please:
     runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
     steps:
       - uses: googleapis/release-please-action@v5
+        id: release
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-iq:
+    needs: release-please
+    if: needs.release-please.outputs.release_created == 'true'
+    permissions:
+      contents: write # upload the .iq asset to the release
+    uses: ./.github/workflows/build-and-distribute.yml
+    with:
+      tag: ${{ needs.release-please.outputs.tag_name }}
+    secrets: inherit
