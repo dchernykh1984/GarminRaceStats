@@ -37,8 +37,7 @@ repos:
         name: prettier (Monkey C)
         entry: npx prettier --check
         language: system
-        files: '\.(mc|json|md|ya?ml)$'
-        exclude: '(package-lock\.json|CHANGELOG\.md)$'
+        files: '\.mc$'
 
       # The full Connect IQ build + "Run No Evil" unit tests need the SDK, so
       # they run in a Docker container at pre-push (not on every commit) to keep
