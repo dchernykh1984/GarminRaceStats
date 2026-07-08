@@ -1,0 +1,22 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="AppName">RaceStats</string>
+
+    <string id="SettingBaseUrl">Site URL</string>
+    <string id="SettingBaseUrlPrompt">Base URL of the timing site</string>
+    <string id="SettingCompetitionId">Competition ID</string>
+    <string id="SettingCompetitionIdPrompt">Numeric id from the race page URL</string>
+    <string id="SettingBib">Bib number</string>
+    <string id="SettingBibPrompt">Your race number</string>
+    <string id="SettingMetric">Metric</string>
+    <string id="SettingMetricPrompt">Which value this field shows</string>
+
+    <string id="MetricPlaceAbs">Place</string>
+    <string id="MetricQtyAbs">Riders</string>
+    <string id="MetricGapPrevAbs">Gap to rider ahead</string>
+    <string id="MetricGapNextAbs">Gap to rider behind</string>
+    <string id="MetricPlaceGroup">Place (group)</string>
+    <string id="MetricQtyGroup">Riders (group)</string>
+    <string id="MetricGapPrevGroup">Gap ahead (group)</string>
+    <string id="MetricGapNextGroup">Gap behind (group)</string>
+    <string id="MetricLaps">Laps</string>
+</resources>
