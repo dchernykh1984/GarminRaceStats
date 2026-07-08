@@ -7,7 +7,6 @@ import Toybox.Lang;
 //! (:background) so the symbols resolve when compiled into the background scope.
 (:background)
 module StatsStore {
-
     //! Storage key under which the latest fetched `stats` dictionary is cached.
     const STORAGE_STATS = "stats";
 

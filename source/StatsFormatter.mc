@@ -5,21 +5,21 @@ import Toybox.Lang;
 //! UI, Storage or Communications dependency so it can be exercised directly by
 //! the unit tests in StatsFormatterTest.mc.
 module StatsFormatter {
-
     //! The v1 stats keys this build understands (see SPEC section 5). A key the
     //! server adds later that is not in this set is simply ignored by an old
     //! build, which is the backward-compatibility contract in SPEC section 7.
-    const KNOWN_KEYS = [
-        "place_group",
-        "qty_group",
-        "gap_prev_group",
-        "gap_next_group",
-        "place_abs",
-        "qty_abs",
-        "gap_prev_abs",
-        "gap_next_abs",
-        "laps"
-    ] as Array<String>;
+    const KNOWN_KEYS =
+        [
+            "place_group",
+            "qty_group",
+            "gap_prev_group",
+            "gap_next_group",
+            "place_abs",
+            "qty_abs",
+            "gap_prev_abs",
+            "gap_next_abs",
+            "laps",
+        ] as Array<String>;
 
     //! Value stored for `key` in `stats`, or an empty string when there is no
     //! data yet (null dictionary), the key is absent, or the value is not a
@@ -78,7 +78,7 @@ module StatsFormatter {
             "qty_abs" => "Riders",
             "gap_prev_abs" => "Gap prev",
             "gap_next_abs" => "Gap next",
-            "laps" => "Laps"
+            "laps" => "Laps",
         };
         var label = labels.get(key);
         if (label != null) {

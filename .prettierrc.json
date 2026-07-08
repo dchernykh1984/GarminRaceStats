@@ -1,0 +1,5 @@
+{
+    "plugins": ["@markw65/prettier-plugin-monkeyc"],
+    "printWidth": 100,
+    "tabWidth": 4
+}

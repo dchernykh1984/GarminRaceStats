@@ -10,7 +10,6 @@ import Toybox.System;
 //! back to the main app through Background.exit -> onBackgroundData.
 (:background)
 class BackgroundService extends System.ServiceDelegate {
-
     //! Constructor
     public function initialize() {
         ServiceDelegate.initialize();
@@ -33,7 +32,7 @@ class BackgroundService extends System.ServiceDelegate {
 
         var options = {
             :method => Communications.HTTP_REQUEST_METHOD_GET,
-            :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
+            :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON,
         };
         Communications.makeWebRequest(url, null, options, method(:onReceive));
     }
@@ -43,7 +42,10 @@ class BackgroundService extends System.ServiceDelegate {
     //! field keeps its last value.
     //! @param responseCode HTTP status, or a negative Connect IQ error code
     //! @param data The parsed JSON body, or null on failure
-    public function onReceive(responseCode as Number, data as Dictionary or String or Null) as Void {
+    public function onReceive(
+        responseCode as Number,
+        data as Dictionary or String or Null
+    ) as Void {
         if (responseCode == 200 && data instanceof Dictionary) {
             var stats = data.get("stats");
             if (stats instanceof Dictionary) {

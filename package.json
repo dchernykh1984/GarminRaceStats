@@ -1,0 +1,15 @@
+{
+    "name": "garmin-race-stats",
+    "version": "0.1.0",
+    "private": true,
+    "description": "Developer tooling for the GarminRaceStats Connect IQ data field (Monkey C formatting).",
+    "license": "MIT",
+    "scripts": {
+        "format": "prettier --write \"**/*.{mc,md,json,yml,yaml}\"",
+        "format:check": "prettier --check \"**/*.{mc,md,json,yml,yaml}\""
+    },
+    "devDependencies": {
+        "@markw65/prettier-plugin-monkeyc": "1.0.69",
+        "prettier": "3.9.4"
+    }
+}
