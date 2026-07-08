@@ -1,0 +1,52 @@
+# Run `pre-commit install` once to enable all of these (the default hook types
+# below wire up commit-msg and pre-push automatically).
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-yaml
+      - id: check-json
+      - id: check-xml
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        args: [--fix=lf]
+
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.16.4
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  - repo: local
+    hooks:
+      - id: no-non-ascii
+        name: no non-ASCII characters
+        language: pygrep
+        entry: '[^\x00-\x7f]'
+        files: '\.(mc|ya?ml|md|json|xml|jungle|toml)$'
+        exclude: '(package-lock\.json|CHANGELOG\.md)$'
+
+      # Monkey C formatting via the Prettier plugin. Needs `npm install` first
+      # (it runs the locally installed prettier), so it is fast and stays on the
+      # normal commit stage.
+      - id: prettier-monkeyc
+        name: prettier (Monkey C)
+        entry: npx prettier --check
+        language: system
+        files: '\.(mc|json|md|ya?ml)$'
+        exclude: '(package-lock\.json|CHANGELOG\.md)$'
+
+      # The full Connect IQ build + "Run No Evil" unit tests need the SDK, so
+      # they run in a Docker container at pre-push (not on every commit) to keep
+      # commits fast. CI runs the same container as a required check.
+      - id: connectiq-test
+        name: Connect IQ build & unit tests (Docker)
+        entry: docker run --rm -v ${PWD}:/app -w /app ghcr.io/matco/connectiq-tester:latest edge1040
+        language: system
+        pass_filenames: false
+        files: '\.(mc|xml|jungle)$'
+        stages: [pre-push]
