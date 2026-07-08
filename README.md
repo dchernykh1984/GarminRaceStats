@@ -121,8 +121,11 @@ commitizen (Conventional Commits), `actionlint`, and an OSV dependency scan.
 
 Releases are automated with `release-please`: it maintains a version-bump PR from
 the Conventional Commits and, when merged, tags a GitHub Release and updates the
-changelog. The signed `.iq` for the Connect IQ Store is built and uploaded
-manually because it needs the private developer key.
+changelog. The **Build and Distribute** workflow then builds the signed `.iq`
+store package (using the `DEVELOPER_KEY_BASE64` secret) and attaches it to that
+release. Uploading the attached `.iq` to the Connect IQ Store - with the
+description, screenshots and release notes - stays manual, because Garmin has no
+public publish API.
 
 ## Contributing
 
