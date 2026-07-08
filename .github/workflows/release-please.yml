@@ -1,0 +1,22 @@
+name: Release Please
+
+# On every push to main, release-please maintains a "release PR" that bumps the
+# version in version.txt and updates CHANGELOG.md from the Conventional Commits.
+# Merging that PR tags the release and creates a GitHub Release. The signed .iq
+# for the Connect IQ Store is built and uploaded manually (it needs the private
+# developer key), so this workflow only handles versioning and the changelog.
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: googleapis/release-please-action@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
