@@ -9,7 +9,6 @@ import Toybox.WatchUi;
 //! never throw, so all the guarding lives in the pure StatsFormatter helpers.
 (:typecheck(disableBackgroundCheck))
 class RaceStatsView extends WatchUi.SimpleDataField {
-
     //! The metric key this field shows, resolved once from the settings index.
     private var _key as String;
 

@@ -10,7 +10,6 @@ import Toybox.WatchUi;
 //! service delegate it returns does the actual web request.
 (:background)
 class GarminRaceStatsApp extends Application.AppBase {
-
     //! Constructor
     public function initialize() {
         AppBase.initialize();
@@ -24,8 +23,7 @@ class GarminRaceStatsApp extends Application.AppBase {
 
     //! Handle app shutdown
     //! @param state Shutdown arguments
-    public function onStop(state as Dictionary?) as Void {
-    }
+    public function onStop(state as Dictionary?) as Void {}
 
     //! Persist the stats handed back by the background service so every field
     //! read on the main process picks up the fresh snapshot.
