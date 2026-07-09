@@ -1,0 +1,26 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="SettingBaseUrl">Site-URL</string>
+    <string id="SettingBaseUrlPrompt">Basis-URL van de tijdregistratiesite</string>
+    <string id="SettingCompetitionId">Wedstrijd-ID</string>
+    <string id="SettingCompetitionIdPrompt">Numeriek id uit de wedstrijd-URL</string>
+    <string id="SettingBib">Startnummer</string>
+    <string id="SettingBibPrompt">Jouw startnummer</string>
+    <string id="SettingMetric">Meetwaarde</string>
+    <string id="SettingMetricPrompt">Welke waarde dit veld toont</string>
+
+    <string id="MetricPlaceAbs">Plaats abs</string>
+    <string id="MetricPlaceGroup">Plaats gr</string>
+    <string id="MetricGapPrevAbs">Gat bh abs</string>
+    <string id="MetricGapNextAbs">Gat ah abs</string>
+    <string id="MetricGapLeaderAbs">Gat ld abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
+    <string id="MetricGapPrevGroup">Gat bh gr</string>
+    <string id="MetricGapNextGroup">Gat ah gr</string>
+    <string id="MetricGapLeaderGroup">Gat ld gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
+    <string id="MetricLaps">Ronden</string>
+</resources>
