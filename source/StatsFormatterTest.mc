@@ -97,11 +97,17 @@ function isKnownKeyRecognisesKeys(logger as Test.Logger) as Boolean {
 
 //! Known metrics load their (English, in the test simulator) label; an unknown
 //! metric falls back to its raw id.
+//!
+//! The direction in a label names the *other* rider, not the reader: gap_prev is
+//! the gap to the rider one place ahead, so it reads "ahd", and gap_next is the
+//! rider one place behind, so it reads "bhd".
 (:test)
 function labelForKnownAndUnknown(logger as Test.Logger) as Boolean {
     return (
         StatsFormatter.labelFor("place_abs").equals("Place abs") &&
-        StatsFormatter.labelFor("gap_prev_abs_delta").equals("Dynam bh abs") &&
+        StatsFormatter.labelFor("gap_prev_abs").equals("Gap ahd abs") &&
+        StatsFormatter.labelFor("gap_next_abs").equals("Gap bhd abs") &&
+        StatsFormatter.labelFor("gap_prev_abs_delta").equals("Dynam ah abs") &&
         StatsFormatter.labelFor("future_metric").equals("future_metric")
     );
 }

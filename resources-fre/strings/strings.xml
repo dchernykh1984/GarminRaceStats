@@ -17,17 +17,17 @@
 
     <string id="MetricPlaceAbs">Place abs</string>
     <string id="MetricPlaceGroup">Place gr</string>
-    <string id="MetricGapPrevAbs">Écart bh abs</string>
-    <string id="MetricGapNextAbs">Écart ah abs</string>
+    <string id="MetricGapPrevAbs">Écart ah abs</string>
+    <string id="MetricGapNextAbs">Écart bh abs</string>
     <string id="MetricGapLeaderAbs">Écart ld abs</string>
-    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
-    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam bh abs</string>
     <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
-    <string id="MetricGapPrevGroup">Écart bh gr</string>
-    <string id="MetricGapNextGroup">Écart ah gr</string>
+    <string id="MetricGapPrevGroup">Écart ah gr</string>
+    <string id="MetricGapNextGroup">Écart bh gr</string>
     <string id="MetricGapLeaderGroup">Écart ld gr</string>
-    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
-    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Tours</string>
 </resources>
