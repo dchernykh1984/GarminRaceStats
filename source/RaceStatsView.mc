@@ -34,9 +34,24 @@ class RaceStatsView extends WatchUi.DataField {
     private var _valueFont as FontDefinition = Graphics.FONT_XTINY;
     private var _labelFont as FontDefinition = Graphics.FONT_XTINY;
 
-    //! Constructor: resolve the configured rows once, with their localized labels.
+    //! Set whenever the rows change, so the fonts are re-picked on the next draw
+    //! (font choice needs a device context, which only onLayout/onUpdate have).
+    private var _fontsStale as Boolean = true;
+
+    //! Constructor: resolve the configured rows, with their localized labels.
     public function initialize() {
         DataField.initialize();
+        loadConfiguration();
+    }
+
+    //! Re-read the settings after the rider edits them on the phone. Without
+    //! this the field would keep drawing the rows it read when it was created.
+    public function reloadSettings() as Void {
+        loadConfiguration();
+    }
+
+    //! Read the row count and each row's metric, resolving localized labels.
+    private function loadConfiguration() as Void {
         _rows = StatsFormatter.clampRowCount(StatsStore.rowCount());
 
         var metrics = [] as Array<String>;
@@ -48,15 +63,23 @@ class RaceStatsView extends WatchUi.DataField {
         }
         _metrics = metrics;
         _labels = labels;
+        _fontsStale = true;
     }
 
     //! Pick the biggest fonts that fit once the slot size is known.
     //! @param dc Device context for the slot this field was placed in
     public function onLayout(dc as Dc) as Void {
+        selectFonts(dc);
+    }
+
+    //! Choose the value/label fonts for the current slot and row count.
+    //! @param dc Device context for the slot this field was placed in
+    private function selectFonts(dc as Dc) as Void {
         var rows = StatsFormatter.visibleRows(_rows, dc.getHeight(), StatsFormatter.MIN_ROW_HEIGHT);
         var rowHeight = dc.getHeight() / rows;
         _valueFont = largestFont(dc, dc.getWidth() / 2 - PAD, rowHeight - 2);
         _labelFont = smallerFont(_valueFont);
+        _fontsStale = false;
     }
 
     //! Cache the snapshot the background service wrote. The activity info is
@@ -69,6 +92,10 @@ class RaceStatsView extends WatchUi.DataField {
     //! Draw one "label ....... value" row per configured metric.
     //! @param dc Device context for the slot this field was placed in
     public function onUpdate(dc as Dc) as Void {
+        if (_fontsStale) {
+            selectFonts(dc);
+        }
+
         var background = getBackgroundColor();
         var foreground = Graphics.COLOR_WHITE;
         if (background == Graphics.COLOR_WHITE) {
