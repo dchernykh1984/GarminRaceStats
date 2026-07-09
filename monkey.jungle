@@ -5,8 +5,11 @@ project.manifest = manifest.xml
 # Launcher icons. Connect IQ does not pick an icon by size, and each product
 # declares its own launcher-icon dimensions, so every device points at the
 # icons/<w>x<h> folder matching it. Without this the base icon is silently
-# scaled and the compiler warns. Regenerate with the icons script if the
-# product list changes.
+# scaled and the compiler warns.
+#
+# Every product listed in the manifest must also be installed locally via the
+# Connect IQ SDK Manager: monkeyc validates the whole product list even when
+# building for a single device.
 
 approachs50.resourcePath = $(approachs50.resourcePath);icons/56x56
 approachs7042mm.resourcePath = $(approachs7042mm.resourcePath);icons/60x60
@@ -24,7 +27,6 @@ descentg2.resourcePath = $(descentg2.resourcePath);icons/60x60
 descentmk1.resourcePath = $(descentmk1.resourcePath);icons/40x40
 descentmk2.resourcePath = $(descentmk2.resourcePath);icons/40x40
 descentmk2s.resourcePath = $(descentmk2s.resourcePath);icons/40x40
-descentmk343mm.resourcePath = $(descentmk343mm.resourcePath);icons/60x60
 descentmk351mm.resourcePath = $(descentmk351mm.resourcePath);icons/60x60
 edge1030.resourcePath = $(edge1030.resourcePath);icons/36x36
 edge1030bontrager.resourcePath = $(edge1030bontrager.resourcePath);icons/36x36
