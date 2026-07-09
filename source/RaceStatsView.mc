@@ -15,8 +15,12 @@ class RaceStatsView extends WatchUi.DataField {
     //! Horizontal breathing room at each edge of the slot.
     private const PAD = 3;
 
-    //! A wide-ish value used to pick a font that will not clip real values.
-    private const SAMPLE_VALUE = "+00:00";
+    //! The widest value we ever draw: a gap over an hour ("+1:23:45") and a place
+    //! in a huge field ("100/1000") are both eight characters.
+    private const SAMPLE_VALUE = "+0:00:00";
+
+    //! Minimum space kept between a row's label and its value.
+    private const GAP = 6;
 
     //! Candidate value fonts, smallest first.
     private const FONTS = [
@@ -72,12 +76,65 @@ class RaceStatsView extends WatchUi.DataField {
     }
 
     //! Choose the value/label fonts for the current slot and row count.
+    //!
+    //! Both columns are measured, because label and value share one row: with few
+    //! rows the value font grows, and a long label like "Dynam ah abs" next to a
+    //! long value like "+1:23:45" would otherwise collide. The value is sized
+    //! first, keeping room for the label at its smallest, then the label takes
+    //! whatever is left and never grows past the value.
     //! @param dc Device context for the slot this field was placed in
     private function selectFonts(dc as Dc) as Void {
         var rows = StatsFormatter.visibleRows(_rows, dc.getHeight(), StatsFormatter.MIN_ROW_HEIGHT);
-        var rowHeight = dc.getHeight() / rows;
-        _valueFont = largestFont(dc, dc.getWidth() / 2 - PAD, rowHeight - 2);
-        _labelFont = smallerFont(_valueFont);
+        var maxHeight = dc.getHeight() / rows - 2;
+        var usable = dc.getWidth() - 2 * PAD;
+
+        var valueWidths = [] as Array<Number>;
+        var valueHeights = [] as Array<Number>;
+        var labelWidths = [] as Array<Number>;
+        var labelHeights = [] as Array<Number>;
+
+        for (var i = 0; i < FONTS.size(); i++) {
+            var value = dc.getTextDimensions(SAMPLE_VALUE, FONTS[i]);
+            valueWidths.add(value[0]);
+            valueHeights.add(value[1]);
+
+            // The widest configured label decides what the label column needs.
+            var widest = 0;
+            var tallest = 0;
+            for (var row = 0; row < _labels.size(); row++) {
+                var label = dc.getTextDimensions(_labels[row], FONTS[i]);
+                if (label[0] > widest) {
+                    widest = label[0];
+                }
+                if (label[1] > tallest) {
+                    tallest = label[1];
+                }
+            }
+            labelWidths.add(widest);
+            labelHeights.add(tallest);
+        }
+
+        var valueBudget = usable - labelWidths[0] - GAP;
+        var valueIndex = StatsFormatter.largestFontIndex(
+            valueWidths,
+            valueHeights,
+            valueBudget,
+            maxHeight
+        );
+
+        var labelBudget = usable - valueWidths[valueIndex] - GAP;
+        var labelIndex = StatsFormatter.largestFontIndex(
+            labelWidths,
+            labelHeights,
+            labelBudget,
+            maxHeight
+        );
+        if (labelIndex > valueIndex) {
+            labelIndex = valueIndex;
+        }
+
+        _valueFont = FONTS[valueIndex];
+        _labelFont = FONTS[labelIndex];
         _fontsStale = false;
     }
 
@@ -127,36 +184,5 @@ class RaceStatsView extends WatchUi.DataField {
                 Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
             );
         }
-    }
-
-    //! The biggest candidate font whose sample value fits the given box.
-    //! @param dc Device context
-    //! @param maxWidth Width the value may occupy
-    //! @param maxHeight Height the value may occupy
-    //! @return The font to draw values with
-    private function largestFont(
-        dc as Dc,
-        maxWidth as Number,
-        maxHeight as Number
-    ) as FontDefinition {
-        for (var i = FONTS.size() - 1; i > 0; i--) {
-            var size = dc.getTextDimensions(SAMPLE_VALUE, FONTS[i]);
-            if (size[0] <= maxWidth && size[1] <= maxHeight) {
-                return FONTS[i];
-            }
-        }
-        return FONTS[0];
-    }
-
-    //! One step down from `font`, so the row label never outshouts its value.
-    //! @param font The value font
-    //! @return The label font
-    private function smallerFont(font as FontDefinition) as FontDefinition {
-        for (var i = 1; i < FONTS.size(); i++) {
-            if (FONTS[i] == font) {
-                return FONTS[i - 1];
-            }
-        }
-        return FONTS[0];
     }
 }

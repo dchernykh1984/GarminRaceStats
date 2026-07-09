@@ -131,29 +131,54 @@ function everyMetricHasALabelResource(logger as Test.Logger) as Boolean {
 (:test)
 function clampRowCountKeepsRowsInRange(logger as Test.Logger) as Boolean {
     return (
+        StatsFormatter.MAX_ROWS == 10 &&
         StatsFormatter.clampRowCount(1) == 1 &&
         StatsFormatter.clampRowCount(4) == 4 &&
+        StatsFormatter.clampRowCount(10) == 10 &&
         StatsFormatter.clampRowCount(0) == 1 &&
         StatsFormatter.clampRowCount(-3) == 1 &&
+        StatsFormatter.clampRowCount(11) == StatsFormatter.MAX_ROWS &&
         StatsFormatter.clampRowCount(99) == StatsFormatter.MAX_ROWS
     );
 }
 
 //! A tall slot draws every configured row; a short one drops rows rather than
 //! squeezing them below the readable minimum, but always draws at least one.
+//! Heights below are the real Edge 540 slot sizes (screen is 246x322).
 (:test)
 function visibleRowsFitsRowsToSlotHeight(logger as Test.Logger) as Boolean {
     return (
-        // 322px (Edge 540 full screen) fits all 4 configured rows
+        // full screen ("1 Field") fits all 10 configured rows
+        StatsFormatter.visibleRows(10, 322, 22) == 10 &&
+        // half screen ("2 Fields") only fits 7 of the 10
+        StatsFormatter.visibleRows(10, 160, 22) == 7 &&
+        // quarter screen ("4 Fields A") only fits 3
+        StatsFormatter.visibleRows(10, 79, 22) == 3 &&
+        // a smaller configured count is never padded out
         StatsFormatter.visibleRows(4, 322, 22) == 4 &&
-        // 160px (half screen) fits 4 rows of >=22px too
-        StatsFormatter.visibleRows(4, 160, 22) == 4 &&
-        // 79px (quarter screen) only fits 3
-        StatsFormatter.visibleRows(4, 79, 22) == 3 &&
-        // never more rows than configured
         StatsFormatter.visibleRows(1, 322, 22) == 1 &&
         // a slot thinner than one row still draws one
-        StatsFormatter.visibleRows(4, 10, 22) == 1
+        StatsFormatter.visibleRows(10, 10, 22) == 1
+    );
+}
+
+//! Font choice takes the biggest candidate that fits both dimensions, and falls
+//! back to the smallest rather than dropping the text when nothing fits.
+(:test)
+function largestFontIndexPicksBiggestThatFits(logger as Test.Logger) as Boolean {
+    var widths = [10, 20, 30, 40, 50] as Array<Number>;
+    var heights = [10, 15, 20, 25, 30] as Array<Number>;
+    return (
+        // plenty of room: the biggest font
+        StatsFormatter.largestFontIndex(widths, heights, 100, 100) == 4 &&
+        // width-bound: 30 fits in 35, 40 does not
+        StatsFormatter.largestFontIndex(widths, heights, 35, 100) == 2 &&
+        // height-bound: 15 fits in 17, 20 does not
+        StatsFormatter.largestFontIndex(widths, heights, 100, 17) == 1 &&
+        // exact fit still counts
+        StatsFormatter.largestFontIndex(widths, heights, 40, 25) == 3 &&
+        // nothing fits: never drop the row, use the smallest
+        StatsFormatter.largestFontIndex(widths, heights, 1, 1) == 0
     );
 }
 

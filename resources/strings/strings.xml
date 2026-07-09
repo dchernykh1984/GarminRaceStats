@@ -13,6 +13,12 @@
     <string id="SettingRow2">Row 2</string>
     <string id="SettingRow3">Row 3</string>
     <string id="SettingRow4">Row 4</string>
+    <string id="SettingRow5">Row 5</string>
+    <string id="SettingRow6">Row 6</string>
+    <string id="SettingRow7">Row 7</string>
+    <string id="SettingRow8">Row 8</string>
+    <string id="SettingRow9">Row 9</string>
+    <string id="SettingRow10">Row 10</string>
     <string id="SettingMetricPrompt">Which value this row shows</string>
 
     <string id="MetricPlaceAbs">Place abs</string>

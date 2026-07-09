@@ -9,6 +9,12 @@
         <property id="metric2" type="number">2</property>
         <property id="metric3" type="number">3</property>
         <property id="metric4" type="number">14</property>
+        <property id="metric5" type="number">4</property>
+        <property id="metric6" type="number">5</property>
+        <property id="metric7" type="number">1</property>
+        <property id="metric8" type="number">8</property>
+        <property id="metric9" type="number">9</property>
+        <property id="metric10" type="number">10</property>
     </properties>
 
     <settings>
@@ -31,6 +37,12 @@
                 <listEntry value="2">2</listEntry>
                 <listEntry value="3">3</listEntry>
                 <listEntry value="4">4</listEntry>
+                <listEntry value="5">5</listEntry>
+                <listEntry value="6">6</listEntry>
+                <listEntry value="7">7</listEntry>
+                <listEntry value="8">8</listEntry>
+                <listEntry value="9">9</listEntry>
+                <listEntry value="10">10</listEntry>
             </settingConfig>
         </setting>
 
@@ -54,7 +66,6 @@
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
             </settingConfig>
         </setting>
-
         <setting propertyKey="@Properties.metric2" title="@Strings.SettingRow2" prompt="@Strings.SettingMetricPrompt">
             <settingConfig type="list">
                 <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
@@ -74,7 +85,6 @@
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
             </settingConfig>
         </setting>
-
         <setting propertyKey="@Properties.metric3" title="@Strings.SettingRow3" prompt="@Strings.SettingMetricPrompt">
             <settingConfig type="list">
                 <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
@@ -94,8 +104,121 @@
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
             </settingConfig>
         </setting>
-
         <setting propertyKey="@Properties.metric4" title="@Strings.SettingRow4" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric5" title="@Strings.SettingRow5" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric6" title="@Strings.SettingRow6" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric7" title="@Strings.SettingRow7" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric8" title="@Strings.SettingRow8" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric9" title="@Strings.SettingRow9" prompt="@Strings.SettingMetricPrompt">
+            <settingConfig type="list">
+                <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
+                <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
+                <listEntry value="2">@Strings.MetricGapPrevAbs</listEntry>
+                <listEntry value="3">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="4">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="5">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="6">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="7">@Strings.MetricGapLeaderAbsDelta</listEntry>
+                <listEntry value="8">@Strings.MetricGapPrevGroup</listEntry>
+                <listEntry value="9">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="10">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="11">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
+                <listEntry value="14">@Strings.MetricLaps</listEntry>
+            </settingConfig>
+        </setting>
+        <setting propertyKey="@Properties.metric10" title="@Strings.SettingRow10" prompt="@Strings.SettingMetricPrompt">
             <settingConfig type="list">
                 <listEntry value="0">@Strings.MetricPlaceAbs</listEntry>
                 <listEntry value="1">@Strings.MetricPlaceGroup</listEntry>
