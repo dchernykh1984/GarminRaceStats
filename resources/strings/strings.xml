@@ -12,17 +12,17 @@
 
     <string id="MetricPlaceAbs">Place abs</string>
     <string id="MetricPlaceGroup">Place gr</string>
-    <string id="MetricGapPrevAbs">Behind abs</string>
-    <string id="MetricGapNextAbs">Ahead abs</string>
-    <string id="MetricGapLeaderAbs">Leader abs</string>
-    <string id="MetricGapPrevAbsDelta">Bhd abs d</string>
-    <string id="MetricGapNextAbsDelta">Ahd abs d</string>
-    <string id="MetricGapLeaderAbsDelta">Ldr abs d</string>
-    <string id="MetricGapPrevGroup">Behind gr</string>
-    <string id="MetricGapNextGroup">Ahead gr</string>
-    <string id="MetricGapLeaderGroup">Leader gr</string>
-    <string id="MetricGapPrevGroupDelta">Bhd gr d</string>
-    <string id="MetricGapNextGroupDelta">Ahd gr d</string>
-    <string id="MetricGapLeaderGroupDelta">Ldr gr d</string>
+    <string id="MetricGapPrevAbs">Gap bhd abs</string>
+    <string id="MetricGapNextAbs">Gap ahd abs</string>
+    <string id="MetricGapLeaderAbs">Gap ldr abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
+    <string id="MetricGapPrevGroup">Gap bhd gr</string>
+    <string id="MetricGapNextGroup">Gap ahd gr</string>
+    <string id="MetricGapLeaderGroup">Gap ldr gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Laps</string>
 </resources>

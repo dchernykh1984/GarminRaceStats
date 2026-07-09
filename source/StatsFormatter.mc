@@ -1,9 +1,11 @@
 import Toybox.Lang;
+import Toybox.WatchUi;
 
 //! Pure helpers that map the opaque per-bib stats dictionary returned by the
-//! site to the values the data field renders. Deliberately free of any Toybox
-//! UI, Storage or Communications dependency so it can be exercised directly by
-//! the unit tests in StatsFormatterTest.mc.
+//! site to the values the data field renders. The value helpers are free of any
+//! Toybox UI/Storage/Communications dependency so they can be exercised directly
+//! by the unit tests; labelFor is the one exception (it loads a localized
+//! string resource for the device language).
 module StatsFormatter {
     //! Every stats key this build understands: the base set (SPEC section 5) plus
     //! the extend-live-stats additions (leader gaps and per-lap gap deltas). Used
@@ -135,33 +137,43 @@ module StatsFormatter {
         return false;
     }
 
-    //! Short field-header label for a metric (at most 11 characters so it is not
-    //! truncated on device). An unknown metric falls back to its raw id so a
-    //! future metric still renders something instead of nothing.
+    //! Localized field-header label for a metric, loaded from the string
+    //! resources so it follows the device language. Kept at most 12 characters in
+    //! every shipped language so it is not truncated on device. An unknown metric
+    //! falls back to its raw id so a future metric still renders something.
     //! @param metric A metric from METRICS
-    //! @return The field-header label
+    //! @return The localized field-header label
     function labelFor(metric as String) as String {
-        var labels = {
-            "place_abs" => "Place abs",
-            "place_group" => "Place gr",
-            "gap_prev_abs" => "Behind abs",
-            "gap_next_abs" => "Ahead abs",
-            "gap_leader_abs" => "Leader abs",
-            "gap_prev_abs_delta" => "Bhd abs d",
-            "gap_next_abs_delta" => "Ahd abs d",
-            "gap_leader_abs_delta" => "Ldr abs d",
-            "gap_prev_group" => "Behind gr",
-            "gap_next_group" => "Ahead gr",
-            "gap_leader_group" => "Leader gr",
-            "gap_prev_group_delta" => "Bhd gr d",
-            "gap_next_group_delta" => "Ahd gr d",
-            "gap_leader_group_delta" => "Ldr gr d",
-            "laps" => "Laps",
-        };
-        var label = labels.get(metric);
-        if (label != null) {
-            return label as String;
+        var id = labelResourceId(metric);
+        if (id == null) {
+            return metric;
         }
-        return metric;
+        return WatchUi.loadResource(id) as String;
+    }
+
+    //! Maps a metric to its Rez string resource id, or null for an unknown
+    //! metric. Split out from labelFor so the mapping is easy to keep in step
+    //! with METRICS and resources/strings/strings.xml.
+    //! @param metric A metric from METRICS
+    //! @return The resource id, or null when the metric is unknown
+    function labelResourceId(metric as String) as Lang.ResourceId? {
+        var ids = {
+            "place_abs" => Rez.Strings.MetricPlaceAbs,
+            "place_group" => Rez.Strings.MetricPlaceGroup,
+            "gap_prev_abs" => Rez.Strings.MetricGapPrevAbs,
+            "gap_next_abs" => Rez.Strings.MetricGapNextAbs,
+            "gap_leader_abs" => Rez.Strings.MetricGapLeaderAbs,
+            "gap_prev_abs_delta" => Rez.Strings.MetricGapPrevAbsDelta,
+            "gap_next_abs_delta" => Rez.Strings.MetricGapNextAbsDelta,
+            "gap_leader_abs_delta" => Rez.Strings.MetricGapLeaderAbsDelta,
+            "gap_prev_group" => Rez.Strings.MetricGapPrevGroup,
+            "gap_next_group" => Rez.Strings.MetricGapNextGroup,
+            "gap_leader_group" => Rez.Strings.MetricGapLeaderGroup,
+            "gap_prev_group_delta" => Rez.Strings.MetricGapPrevGroupDelta,
+            "gap_next_group_delta" => Rez.Strings.MetricGapNextGroupDelta,
+            "gap_leader_group_delta" => Rez.Strings.MetricGapLeaderGroupDelta,
+            "laps" => Rez.Strings.MetricLaps,
+        };
+        return ids.get(metric) as Lang.ResourceId?;
     }
 }
