@@ -1,0 +1,26 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="SettingBaseUrl">URL webu</string>
+    <string id="SettingBaseUrlPrompt">Základní URL webu s časomírou</string>
+    <string id="SettingCompetitionId">ID závodu</string>
+    <string id="SettingCompetitionIdPrompt">Číselné id z URL závodu</string>
+    <string id="SettingBib">Startovní číslo</string>
+    <string id="SettingBibPrompt">Tvé startovní číslo</string>
+    <string id="SettingMetric">Metrika</string>
+    <string id="SettingMetricPrompt">Jakou hodnotu toto pole zobrazuje</string>
+
+    <string id="MetricPlaceAbs">Pozice abs</string>
+    <string id="MetricPlaceGroup">Pozice gr</string>
+    <string id="MetricGapPrevAbs">Ztrát bh abs</string>
+    <string id="MetricGapNextAbs">Ztrát ah abs</string>
+    <string id="MetricGapLeaderAbs">Ztrát ld abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
+    <string id="MetricGapPrevGroup">Ztrát bh gr</string>
+    <string id="MetricGapNextGroup">Ztrát ah gr</string>
+    <string id="MetricGapLeaderGroup">Ztrát ld gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
+    <string id="MetricLaps">Kola</string>
+</resources>

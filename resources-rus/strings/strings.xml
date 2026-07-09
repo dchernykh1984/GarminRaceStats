@@ -1,0 +1,26 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="SettingBaseUrl">URL сайта</string>
+    <string id="SettingBaseUrlPrompt">Базовый URL сайта хронометража</string>
+    <string id="SettingCompetitionId">ID соревнования</string>
+    <string id="SettingCompetitionIdPrompt">Числовой id из URL страницы гонки</string>
+    <string id="SettingBib">Номер</string>
+    <string id="SettingBibPrompt">Ваш стартовый номер</string>
+    <string id="SettingMetric">Метрика</string>
+    <string id="SettingMetricPrompt">Какое значение показывает это поле</string>
+
+    <string id="MetricPlaceAbs">Место абс</string>
+    <string id="MetricPlaceGroup">Место гр</string>
+    <string id="MetricGapPrevAbs">Отрыв сз абс</string>
+    <string id="MetricGapNextAbs">Отрыв вп абс</string>
+    <string id="MetricGapLeaderAbs">Отрыв лд абс</string>
+    <string id="MetricGapPrevAbsDelta">Динам сз абс</string>
+    <string id="MetricGapNextAbsDelta">Динам вп абс</string>
+    <string id="MetricGapLeaderAbsDelta">Динам лд абс</string>
+    <string id="MetricGapPrevGroup">Отрыв сз гр</string>
+    <string id="MetricGapNextGroup">Отрыв вп гр</string>
+    <string id="MetricGapLeaderGroup">Отрыв лд гр</string>
+    <string id="MetricGapPrevGroupDelta">Динам сз гр</string>
+    <string id="MetricGapNextGroupDelta">Динам вп гр</string>
+    <string id="MetricGapLeaderGroupDelta">Динам лд гр</string>
+    <string id="MetricLaps">Круги</string>
+</resources>
