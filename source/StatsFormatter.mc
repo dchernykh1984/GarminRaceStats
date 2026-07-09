@@ -60,8 +60,9 @@ module StatsFormatter {
     //! Default metric index (into METRICS); 0 == place_abs.
     const DEFAULT_METRIC_INDEX = 0;
 
-    //! The most rows the field will ever draw in its slot.
-    const MAX_ROWS = 4;
+    //! The most rows the field will ever draw in its slot. Edge screens split into
+    //! at most 10 native cells, so 10 is the practical ceiling for one field too.
+    const MAX_ROWS = 10;
 
     //! A row thinner than this is unreadable on device, so rows are dropped
     //! rather than squeezed below it.
@@ -106,6 +107,29 @@ module StatsFormatter {
             return fits;
         }
         return rows;
+    }
+
+    //! Index of the largest font that fits a box, given each candidate font's
+    //! measured width and height (candidates ordered smallest first). Falls back
+    //! to the smallest font when nothing fits, so a row is always drawn rather
+    //! than dropped. Pure on purpose: the view measures, this decides.
+    //! @param widths Measured text width per candidate font
+    //! @param heights Measured text height per candidate font
+    //! @param maxWidth The width the text may occupy
+    //! @param maxHeight The height the text may occupy
+    //! @return The index of the font to use
+    function largestFontIndex(
+        widths as Array<Number>,
+        heights as Array<Number>,
+        maxWidth as Number,
+        maxHeight as Number
+    ) as Number {
+        for (var i = widths.size() - 1; i > 0; i--) {
+            if (widths[i] <= maxWidth && heights[i] <= maxHeight) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     //! Value stored for `key` in `stats`, or an empty string when there is no

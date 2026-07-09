@@ -13,6 +13,12 @@
     <string id="SettingRow2">Linha 2</string>
     <string id="SettingRow3">Linha 3</string>
     <string id="SettingRow4">Linha 4</string>
+    <string id="SettingRow5">Linha 5</string>
+    <string id="SettingRow6">Linha 6</string>
+    <string id="SettingRow7">Linha 7</string>
+    <string id="SettingRow8">Linha 8</string>
+    <string id="SettingRow9">Linha 9</string>
+    <string id="SettingRow10">Linha 10</string>
     <string id="SettingMetricPrompt">Que valor esta linha mostra</string>
 
     <string id="MetricPlaceAbs">Posição abs</string>

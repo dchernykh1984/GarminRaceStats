@@ -13,6 +13,12 @@
     <string id="SettingRow2">Wiersz 2</string>
     <string id="SettingRow3">Wiersz 3</string>
     <string id="SettingRow4">Wiersz 4</string>
+    <string id="SettingRow5">Wiersz 5</string>
+    <string id="SettingRow6">Wiersz 6</string>
+    <string id="SettingRow7">Wiersz 7</string>
+    <string id="SettingRow8">Wiersz 8</string>
+    <string id="SettingRow9">Wiersz 9</string>
+    <string id="SettingRow10">Wiersz 10</string>
     <string id="SettingMetricPrompt">Jaką wartość pokazuje ten wiersz</string>
 
     <string id="MetricPlaceAbs">Miejsce abs</string>
