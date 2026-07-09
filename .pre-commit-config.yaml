@@ -28,8 +28,9 @@ repos:
         language: pygrep
         entry: '[^\x00-\x7f]'
         files: '\.(mc|ya?ml|md|json|xml|jungle|toml)$'
-        # The resources-<lang> folders hold the translations, which are legitimately
-        # non-ASCII; the base (English) resources/ stays ASCII-only.
+        # The resources-<qualifier> folders hold the translations (legitimately
+        # non-ASCII) and the per-device launcher icons; the base (English)
+        # resources/ stays ASCII-only.
         exclude: '(^resources-|package-lock\.json$|CHANGELOG\.md$)'
 
       # Monkey C formatting via the Prettier plugin. Needs `npm install` first
