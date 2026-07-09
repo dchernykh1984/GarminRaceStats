@@ -17,17 +17,17 @@
 
     <string id="MetricPlaceAbs">Plaats abs</string>
     <string id="MetricPlaceGroup">Plaats gr</string>
-    <string id="MetricGapPrevAbs">Gat bh abs</string>
-    <string id="MetricGapNextAbs">Gat ah abs</string>
+    <string id="MetricGapPrevAbs">Gat ah abs</string>
+    <string id="MetricGapNextAbs">Gat bh abs</string>
     <string id="MetricGapLeaderAbs">Gat ld abs</string>
-    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
-    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam bh abs</string>
     <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
-    <string id="MetricGapPrevGroup">Gat bh gr</string>
-    <string id="MetricGapNextGroup">Gat ah gr</string>
+    <string id="MetricGapPrevGroup">Gat ah gr</string>
+    <string id="MetricGapNextGroup">Gat bh gr</string>
     <string id="MetricGapLeaderGroup">Gat ld gr</string>
-    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
-    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Ronden</string>
 </resources>

@@ -17,17 +17,17 @@
 
     <string id="MetricPlaceAbs">Puesto abs</string>
     <string id="MetricPlaceGroup">Puesto gr</string>
-    <string id="MetricGapPrevAbs">Difer bh abs</string>
-    <string id="MetricGapNextAbs">Difer ah abs</string>
+    <string id="MetricGapPrevAbs">Difer ah abs</string>
+    <string id="MetricGapNextAbs">Difer bh abs</string>
     <string id="MetricGapLeaderAbs">Difer ld abs</string>
-    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
-    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam bh abs</string>
     <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
-    <string id="MetricGapPrevGroup">Difer bh gr</string>
-    <string id="MetricGapNextGroup">Difer ah gr</string>
+    <string id="MetricGapPrevGroup">Difer ah gr</string>
+    <string id="MetricGapNextGroup">Difer bh gr</string>
     <string id="MetricGapLeaderGroup">Difer ld gr</string>
-    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
-    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Vueltas</string>
 </resources>

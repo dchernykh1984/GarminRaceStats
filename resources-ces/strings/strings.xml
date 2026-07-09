@@ -17,17 +17,17 @@
 
     <string id="MetricPlaceAbs">Pozice abs</string>
     <string id="MetricPlaceGroup">Pozice gr</string>
-    <string id="MetricGapPrevAbs">Ztrát bh abs</string>
-    <string id="MetricGapNextAbs">Ztrát ah abs</string>
-    <string id="MetricGapLeaderAbs">Ztrát ld abs</string>
-    <string id="MetricGapPrevAbsDelta">Dynam bh abs</string>
-    <string id="MetricGapNextAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapPrevAbs">Rozd ah abs</string>
+    <string id="MetricGapNextAbs">Rozd bh abs</string>
+    <string id="MetricGapLeaderAbs">Rozd ld abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam bh abs</string>
     <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
-    <string id="MetricGapPrevGroup">Ztrát bh gr</string>
-    <string id="MetricGapNextGroup">Ztrát ah gr</string>
-    <string id="MetricGapLeaderGroup">Ztrát ld gr</string>
-    <string id="MetricGapPrevGroupDelta">Dynam bh gr</string>
-    <string id="MetricGapNextGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapPrevGroup">Rozd ah gr</string>
+    <string id="MetricGapNextGroup">Rozd bh gr</string>
+    <string id="MetricGapLeaderGroup">Rozd ld gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Kola</string>
 </resources>

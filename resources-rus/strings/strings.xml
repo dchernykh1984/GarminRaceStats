@@ -17,17 +17,17 @@
 
     <string id="MetricPlaceAbs">Место абс</string>
     <string id="MetricPlaceGroup">Место гр</string>
-    <string id="MetricGapPrevAbs">Отрыв сз абс</string>
-    <string id="MetricGapNextAbs">Отрыв вп абс</string>
+    <string id="MetricGapPrevAbs">Отрыв вп абс</string>
+    <string id="MetricGapNextAbs">Отрыв сз абс</string>
     <string id="MetricGapLeaderAbs">Отрыв лд абс</string>
-    <string id="MetricGapPrevAbsDelta">Динам сз абс</string>
-    <string id="MetricGapNextAbsDelta">Динам вп абс</string>
+    <string id="MetricGapPrevAbsDelta">Динам вп абс</string>
+    <string id="MetricGapNextAbsDelta">Динам сз абс</string>
     <string id="MetricGapLeaderAbsDelta">Динам лд абс</string>
-    <string id="MetricGapPrevGroup">Отрыв сз гр</string>
-    <string id="MetricGapNextGroup">Отрыв вп гр</string>
+    <string id="MetricGapPrevGroup">Отрыв вп гр</string>
+    <string id="MetricGapNextGroup">Отрыв сз гр</string>
     <string id="MetricGapLeaderGroup">Отрыв лд гр</string>
-    <string id="MetricGapPrevGroupDelta">Динам сз гр</string>
-    <string id="MetricGapNextGroupDelta">Динам вп гр</string>
+    <string id="MetricGapPrevGroupDelta">Динам вп гр</string>
+    <string id="MetricGapNextGroupDelta">Динам сз гр</string>
     <string id="MetricGapLeaderGroupDelta">Динам лд гр</string>
     <string id="MetricLaps">Круги</string>
 </resources>
