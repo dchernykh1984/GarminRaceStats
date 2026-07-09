@@ -9,21 +9,21 @@ import Toybox.WatchUi;
 //! never throw, so all the guarding lives in the pure StatsFormatter helpers.
 (:typecheck(disableBackgroundCheck))
 class RaceStatsView extends WatchUi.SimpleDataField {
-    //! The metric key this field shows, resolved once from the settings index.
-    private var _key as String;
+    //! The metric this field shows, resolved once from the settings index.
+    private var _metric as String;
 
     //! Constructor: resolve the configured metric and set the field header.
     public function initialize() {
         SimpleDataField.initialize();
-        _key = StatsFormatter.keyForIndex(StatsStore.metricIndex());
-        label = StatsFormatter.labelFor(_key);
+        _metric = StatsFormatter.metricForIndex(StatsStore.metricIndex());
+        label = StatsFormatter.labelFor(_metric);
     }
 
     //! Compute the value to show. Reads the cached snapshot written by the
-    //! background service and picks the configured metric out of it.
+    //! background service and renders the configured metric from it.
     //! @param info The updated Activity.Info object (unused; data comes from the site)
     //! @return The metric string to display, or "" when unavailable
     public function compute(info as Info) as Numeric or Duration or String or Null {
-        return StatsFormatter.valueFor(StatsStore.load(), _key);
+        return StatsFormatter.displayValue(StatsStore.load(), _metric);
     }
 }

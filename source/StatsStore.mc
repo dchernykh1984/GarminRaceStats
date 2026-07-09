@@ -16,8 +16,8 @@ module StatsStore {
     const PROP_BIB = "bib";
     const PROP_METRIC_INDEX = "metricIndex";
 
-    //! Default metric-key index (see StatsFormatter.KNOWN_KEYS); 4 == place_abs.
-    const DEFAULT_METRIC_INDEX = 4;
+    //! Default metric index (see StatsFormatter.METRICS); 0 == place_abs.
+    const DEFAULT_METRIC_INDEX = 0;
 
     //! Cache the freshly fetched per-bib stats dictionary.
     //! @param stats The `stats` object from the site response
@@ -35,10 +35,10 @@ module StatsStore {
         return null;
     }
 
-    //! The configured metric-key index (into StatsFormatter.KNOWN_KEYS). The
-    //! phone settings expose the metric as a dropdown of numeric indices;
-    //! mapping the index to a key stays in the foreground formatter so this
-    //! background-safe module has no UI dependency.
+    //! The configured metric index (into StatsFormatter.METRICS). The phone
+    //! settings expose the metric as a dropdown of numeric indices; mapping the
+    //! index to a metric stays in the foreground formatter so this background-safe
+    //! module has no UI dependency.
     //! @return The selected index, or the default when unset/out of range
     function metricIndex() as Number {
         var index = Application.Properties.getValue(PROP_METRIC_INDEX);
