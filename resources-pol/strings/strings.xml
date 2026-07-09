@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">Numeryczne id z adresu URL wyścigu</string>
     <string id="SettingBib">Numer startowy</string>
     <string id="SettingBibPrompt">Twój numer startowy</string>
-    <string id="SettingMetric">Metryka</string>
-    <string id="SettingMetricPrompt">Jaką wartość pokazuje to pole</string>
+    <string id="SettingRowCount">Wiersze</string>
+    <string id="SettingRowCountPrompt">Ile wartości pokazywać</string>
+    <string id="SettingRow1">Wiersz 1</string>
+    <string id="SettingRow2">Wiersz 2</string>
+    <string id="SettingRow3">Wiersz 3</string>
+    <string id="SettingRow4">Wiersz 4</string>
+    <string id="SettingMetricPrompt">Jaką wartość pokazuje ten wiersz</string>
 
     <string id="MetricPlaceAbs">Miejsce abs</string>
     <string id="MetricPlaceGroup">Miejsce gr</string>

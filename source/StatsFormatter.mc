@@ -60,6 +60,54 @@ module StatsFormatter {
     //! Default metric index (into METRICS); 0 == place_abs.
     const DEFAULT_METRIC_INDEX = 0;
 
+    //! The most rows the field will ever draw in its slot.
+    const MAX_ROWS = 4;
+
+    //! A row thinner than this is unreadable on device, so rows are dropped
+    //! rather than squeezed below it.
+    const MIN_ROW_HEIGHT = 22;
+
+    //! Clamp a configured row count into 1..MAX_ROWS, so a bad setting can never
+    //! make the field draw nothing (or more rows than it has metrics for).
+    //! @param configured The row count from settings
+    //! @return The row count to use
+    function clampRowCount(configured as Number) as Number {
+        if (configured < 1) {
+            return 1;
+        }
+        if (configured > MAX_ROWS) {
+            return MAX_ROWS;
+        }
+        return configured;
+    }
+
+    //! How many rows actually fit in a slot `heightPx` tall. The rider picks the
+    //! native screen layout, so the slot can be anything from the full screen to
+    //! a thin strip; we draw as many of the configured rows as stay readable and
+    //! always draw at least one.
+    //! @param configured The row count from settings
+    //! @param heightPx The slot height reported by the device context
+    //! @param minRowHeightPx The smallest readable row height
+    //! @return The number of rows to draw
+    function visibleRows(
+        configured as Number,
+        heightPx as Number,
+        minRowHeightPx as Number
+    ) as Number {
+        var rows = clampRowCount(configured);
+        if (minRowHeightPx <= 0) {
+            return rows;
+        }
+        var fits = heightPx / minRowHeightPx;
+        if (fits < 1) {
+            fits = 1;
+        }
+        if (fits < rows) {
+            return fits;
+        }
+        return rows;
+    }
+
     //! Value stored for `key` in `stats`, or an empty string when there is no
     //! data yet (null dictionary), the key is absent, or the value is not a
     //! string. Never throws, so a partial or missing snapshot can never crash the

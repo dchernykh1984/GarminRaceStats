@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">Numeric id from the race page URL</string>
     <string id="SettingBib">Bib number</string>
     <string id="SettingBibPrompt">Your race number</string>
-    <string id="SettingMetric">Metric</string>
-    <string id="SettingMetricPrompt">Which value this field shows</string>
+    <string id="SettingRowCount">Rows</string>
+    <string id="SettingRowCountPrompt">How many metrics to show</string>
+    <string id="SettingRow1">Row 1</string>
+    <string id="SettingRow2">Row 2</string>
+    <string id="SettingRow3">Row 3</string>
+    <string id="SettingRow4">Row 4</string>
+    <string id="SettingMetricPrompt">Which value this row shows</string>
 
     <string id="MetricPlaceAbs">Place abs</string>
     <string id="MetricPlaceGroup">Place gr</string>

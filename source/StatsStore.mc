@@ -14,10 +14,16 @@ module StatsStore {
     const PROP_BASE_URL = "baseUrl";
     const PROP_COMPETITION_ID = "competitionId";
     const PROP_BIB = "bib";
-    const PROP_METRIC_INDEX = "metricIndex";
+    const PROP_ROW_COUNT = "rowCount";
+
+    //! Per-row metric properties are "metric1".."metric4".
+    const PROP_METRIC_PREFIX = "metric";
 
     //! Default metric index (see StatsFormatter.METRICS); 0 == place_abs.
     const DEFAULT_METRIC_INDEX = 0;
+
+    //! Rows drawn before the rider changes anything.
+    const DEFAULT_ROW_COUNT = 1;
 
     //! Cache the freshly fetched per-bib stats dictionary.
     //! @param stats The `stats` object from the site response
@@ -35,13 +41,25 @@ module StatsStore {
         return null;
     }
 
-    //! The configured metric index (into StatsFormatter.METRICS). The phone
-    //! settings expose the metric as a dropdown of numeric indices; mapping the
+    //! How many metric rows the rider asked the field to draw. Not clamped here;
+    //! StatsFormatter.clampRowCount owns that rule so it stays unit-testable.
+    //! @return The configured row count, or the default when unset
+    function rowCount() as Number {
+        var rows = Application.Properties.getValue(PROP_ROW_COUNT);
+        if (rows instanceof Number) {
+            return rows;
+        }
+        return DEFAULT_ROW_COUNT;
+    }
+
+    //! The configured metric index (into StatsFormatter.METRICS) for one row. The
+    //! phone settings expose each row as a dropdown of numeric indices; mapping an
     //! index to a metric stays in the foreground formatter so this background-safe
     //! module has no UI dependency.
-    //! @return The selected index, or the default when unset/out of range
-    function metricIndex() as Number {
-        var index = Application.Properties.getValue(PROP_METRIC_INDEX);
+    //! @param row The 1-based row number
+    //! @return The selected index, or the default when unset
+    function metricIndexForRow(row as Number) as Number {
+        var index = Application.Properties.getValue(PROP_METRIC_PREFIX + row.toString());
         if (index instanceof Number) {
             return index;
         }

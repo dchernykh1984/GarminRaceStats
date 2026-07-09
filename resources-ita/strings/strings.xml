@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">ID numerico dall'URL della gara</string>
     <string id="SettingBib">Pettorale</string>
     <string id="SettingBibPrompt">Il tuo numero di pettorale</string>
-    <string id="SettingMetric">Dato</string>
-    <string id="SettingMetricPrompt">Quale valore mostra questo campo</string>
+    <string id="SettingRowCount">Righe</string>
+    <string id="SettingRowCountPrompt">Quanti valori mostrare</string>
+    <string id="SettingRow1">Riga 1</string>
+    <string id="SettingRow2">Riga 2</string>
+    <string id="SettingRow3">Riga 3</string>
+    <string id="SettingRow4">Riga 4</string>
+    <string id="SettingMetricPrompt">Quale valore mostra questa riga</string>
 
     <string id="MetricPlaceAbs">Posiz abs</string>
     <string id="MetricPlaceGroup">Posiz gr</string>

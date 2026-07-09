@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">ID numérico de la URL de la carrera</string>
     <string id="SettingBib">Dorsal</string>
     <string id="SettingBibPrompt">Tu número de dorsal</string>
-    <string id="SettingMetric">Métrica</string>
-    <string id="SettingMetricPrompt">Qué valor muestra este campo</string>
+    <string id="SettingRowCount">Filas</string>
+    <string id="SettingRowCountPrompt">Cuántos valores mostrar</string>
+    <string id="SettingRow1">Fila 1</string>
+    <string id="SettingRow2">Fila 2</string>
+    <string id="SettingRow3">Fila 3</string>
+    <string id="SettingRow4">Fila 4</string>
+    <string id="SettingMetricPrompt">Qué valor muestra esta fila</string>
 
     <string id="MetricPlaceAbs">Puesto abs</string>
     <string id="MetricPlaceGroup">Puesto gr</string>
