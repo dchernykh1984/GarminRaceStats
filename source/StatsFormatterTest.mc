@@ -95,24 +95,39 @@ function isKnownKeyRecognisesKeys(logger as Test.Logger) as Boolean {
     );
 }
 
-//! Known metrics get their label; an unknown metric falls back to its raw id.
+//! Known metrics load their (English, in the test simulator) label; an unknown
+//! metric falls back to its raw id.
 (:test)
 function labelForKnownAndUnknown(logger as Test.Logger) as Boolean {
     return (
         StatsFormatter.labelFor("place_abs").equals("Place abs") &&
-        StatsFormatter.labelFor("gap_prev_abs_delta").equals("Bhd abs d") &&
+        StatsFormatter.labelFor("gap_prev_abs_delta").equals("Dynam bh abs") &&
         StatsFormatter.labelFor("future_metric").equals("future_metric")
     );
 }
 
-//! Every pickable metric has a non-empty label of at most 11 characters, so no
+//! Every pickable metric maps to a resource id (no raw-id fallback), so no
+//! metric is left unlabeled as the list grows.
+(:test)
+function everyMetricHasALabelResource(logger as Test.Logger) as Boolean {
+    var metrics = StatsFormatter.METRICS;
+    for (var i = 0; i < metrics.size(); i++) {
+        if (StatsFormatter.labelResourceId(metrics[i]) == null) {
+            logger.error("no label resource for " + metrics[i]);
+            return false;
+        }
+    }
+    return true;
+}
+
+//! Every metric's (English) label is non-empty and at most 12 characters, so no
 //! field header is truncated on device. Guards the length budget as metrics grow.
 (:test)
-function allMetricLabelsWithinElevenChars(logger as Test.Logger) as Boolean {
+function allMetricLabelsWithinTwelveChars(logger as Test.Logger) as Boolean {
     var metrics = StatsFormatter.METRICS;
     for (var i = 0; i < metrics.size(); i++) {
         var label = StatsFormatter.labelFor(metrics[i]);
-        if (label.length() == 0 || label.length() > 11) {
+        if (label.length() == 0 || label.length() > 12) {
             logger.error(metrics[i] + " -> '" + label + "' len=" + label.length());
             return false;
         }
