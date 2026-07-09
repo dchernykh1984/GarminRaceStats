@@ -24,9 +24,16 @@ class GarminRaceStatsApp extends Application.AppBase {
         scheduleBackgroundFetch();
     }
 
-    //! Handle app shutdown
+    //! Handle app shutdown: stop the background fetch.
+    //!
+    //! A temporal event outlives the activity - the background service runs even
+    //! when the app is not. Without this the service would keep waking every five
+    //! minutes long after the ride ended, draining the battery over BLE and
+    //! polling the site for a race that is over.
     //! @param state Shutdown arguments
-    public function onStop(state as Dictionary?) as Void {}
+    public function onStop(state as Dictionary?) as Void {
+        Background.deleteTemporalEvent();
+    }
 
     //! Persist the stats handed back by the background service so every field
     //! read on the main process picks up the fresh snapshot.
