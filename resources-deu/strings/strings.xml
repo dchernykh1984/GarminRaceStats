@@ -1,4 +1,6 @@
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="AppName">RaceStats</string>
+
     <string id="SettingBaseUrl">Website-URL</string>
     <string id="SettingBaseUrlPrompt">Basis-URL der Zeitmessungs-Website</string>
     <string id="SettingCompetitionId">Wettkampf-ID</string>
