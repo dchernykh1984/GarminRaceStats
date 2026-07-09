@@ -10,6 +10,9 @@ import Toybox.WatchUi;
 //! service delegate it returns does the actual web request.
 (:background)
 class GarminRaceStatsApp extends Application.AppBase {
+    //! The live field, kept so settings edits can be pushed into it.
+    private var _view as RaceStatsView? = null;
+
     //! Constructor
     public function initialize() {
         AppBase.initialize();
@@ -34,15 +37,24 @@ class GarminRaceStatsApp extends Application.AppBase {
         }
     }
 
-    //! Re-render when the rider edits the settings on the paired phone.
+    //! Push the new settings into the live field and re-render when the rider
+    //! edits them on the paired phone. The field caches its rows, so without the
+    //! reload it would keep drawing whatever was configured when it was created.
+    (:typecheck(disableBackgroundCheck))
     public function onSettingsChanged() as Void {
+        var view = _view;
+        if (view != null) {
+            view.reloadSettings();
+        }
         WatchUi.requestUpdate();
     }
 
     //! Return the initial view for the app
     //! @return Array [View]
     public function getInitialView() as [Views] or [Views, InputDelegates] {
-        return [new $.RaceStatsView()];
+        var view = new $.RaceStatsView();
+        _view = view;
+        return [view];
     }
 
     //! Return the background service delegate that runs the temporal fetch.
