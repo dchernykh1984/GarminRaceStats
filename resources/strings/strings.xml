@@ -19,4 +19,13 @@
     <string id="MetricGapPrevGroup">Gap ahead (group)</string>
     <string id="MetricGapNextGroup">Gap behind (group)</string>
     <string id="MetricLaps">Laps</string>
+
+    <string id="MetricGapLeaderAbs">Gap to leader</string>
+    <string id="MetricGapPrevAbsDelta">Gap ahead trend</string>
+    <string id="MetricGapNextAbsDelta">Gap behind trend</string>
+    <string id="MetricGapLeaderAbsDelta">Gap to leader trend</string>
+    <string id="MetricGapLeaderGroup">Gap to leader (group)</string>
+    <string id="MetricGapPrevGroupDelta">Gap ahead trend (group)</string>
+    <string id="MetricGapNextGroupDelta">Gap behind trend (group)</string>
+    <string id="MetricGapLeaderGroupDelta">Gap to leader trend (group)</string>
 </resources>
