@@ -27,10 +27,18 @@
                 <listEntry value="5">@Strings.MetricQtyAbs</listEntry>
                 <listEntry value="6">@Strings.MetricGapPrevAbs</listEntry>
                 <listEntry value="7">@Strings.MetricGapNextAbs</listEntry>
+                <listEntry value="9">@Strings.MetricGapLeaderAbs</listEntry>
+                <listEntry value="10">@Strings.MetricGapPrevAbsDelta</listEntry>
+                <listEntry value="11">@Strings.MetricGapNextAbsDelta</listEntry>
+                <listEntry value="12">@Strings.MetricGapLeaderAbsDelta</listEntry>
                 <listEntry value="0">@Strings.MetricPlaceGroup</listEntry>
                 <listEntry value="1">@Strings.MetricQtyGroup</listEntry>
                 <listEntry value="2">@Strings.MetricGapPrevGroup</listEntry>
                 <listEntry value="3">@Strings.MetricGapNextGroup</listEntry>
+                <listEntry value="13">@Strings.MetricGapLeaderGroup</listEntry>
+                <listEntry value="14">@Strings.MetricGapPrevGroupDelta</listEntry>
+                <listEntry value="15">@Strings.MetricGapNextGroupDelta</listEntry>
+                <listEntry value="16">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="8">@Strings.MetricLaps</listEntry>
             </settingConfig>
         </setting>

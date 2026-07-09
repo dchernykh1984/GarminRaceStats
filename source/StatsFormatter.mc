@@ -5,9 +5,14 @@ import Toybox.Lang;
 //! UI, Storage or Communications dependency so it can be exercised directly by
 //! the unit tests in StatsFormatterTest.mc.
 module StatsFormatter {
-    //! The v1 stats keys this build understands (see SPEC section 5). A key the
-    //! server adds later that is not in this set is simply ignored by an old
-    //! build, which is the backward-compatibility contract in SPEC section 7.
+    //! The stats keys this build understands: the base set (SPEC section 5) plus
+    //! the extend-live-stats additions (leader gaps and per-lap gap deltas). A
+    //! key the server adds later that is not in this set is simply ignored by an
+    //! old build, which is the backward-compatibility contract in SPEC section 7.
+    //!
+    //! The array index is what the settings dropdown stores (see keyForIndex), so
+    //! new keys are appended (indices 9+) and the original 0-8 order is never
+    //! reshuffled, otherwise a saved metricIndex would point at a different key.
     const KNOWN_KEYS =
         [
             "place_group",
@@ -19,6 +24,14 @@ module StatsFormatter {
             "gap_prev_abs",
             "gap_next_abs",
             "laps",
+            "gap_leader_abs",
+            "gap_prev_abs_delta",
+            "gap_next_abs_delta",
+            "gap_leader_abs_delta",
+            "gap_leader_group",
+            "gap_prev_group_delta",
+            "gap_next_group_delta",
+            "gap_leader_group_delta",
         ] as Array<String>;
 
     //! Value stored for `key` in `stats`, or an empty string when there is no
@@ -79,6 +92,14 @@ module StatsFormatter {
             "gap_prev_abs" => "Gap prev",
             "gap_next_abs" => "Gap next",
             "laps" => "Laps",
+            "gap_leader_abs" => "Gap leader",
+            "gap_prev_abs_delta" => "Gap prev trend",
+            "gap_next_abs_delta" => "Gap next trend",
+            "gap_leader_abs_delta" => "Gap leader trend",
+            "gap_leader_group" => "Gap leader (grp)",
+            "gap_prev_group_delta" => "Gap prev trend (grp)",
+            "gap_next_group_delta" => "Gap next trend (grp)",
+            "gap_leader_group_delta" => "Gap leader trend (grp)",
         };
         var label = labels.get(key);
         if (label != null) {
