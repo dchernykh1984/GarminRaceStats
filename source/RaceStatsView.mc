@@ -30,7 +30,6 @@ class RaceStatsView extends WatchUi.DataField {
     private var _metrics as Array<String> = [] as Array<String>;
     private var _labels as Array<String> = [] as Array<String>;
     private var _rows as Number = 1;
-    private var _stats as Dictionary? = null;
     private var _valueFont as FontDefinition = Graphics.FONT_XTINY;
     private var _labelFont as FontDefinition = Graphics.FONT_XTINY;
 
@@ -82,12 +81,12 @@ class RaceStatsView extends WatchUi.DataField {
         _fontsStale = false;
     }
 
-    //! Cache the snapshot the background service wrote. The activity info is
-    //! unused: every value comes from the site, not from the device sensors.
-    //! @param info The updated Activity.Info object
-    public function compute(info as Info) as Void {
-        _stats = StatsStore.load();
-    }
+    //! Nothing to compute: every value comes from the site snapshot, never from
+    //! the device sensors. The snapshot is read in onUpdate instead, because the
+    //! system gives no guarantee that compute() runs before onUpdate() - caching
+    //! it here would leave the first frame after a screen switch blank.
+    //! @param info The updated Activity.Info object (unused)
+    public function compute(info as Info) as Void {}
 
     //! Draw one "label ....... value" row per configured metric.
     //! @param dc Device context for the slot this field was placed in
@@ -106,6 +105,7 @@ class RaceStatsView extends WatchUi.DataField {
         dc.clear();
         dc.setColor(foreground, Graphics.COLOR_TRANSPARENT);
 
+        var stats = StatsStore.load();
         var rows = StatsFormatter.visibleRows(_rows, dc.getHeight(), StatsFormatter.MIN_ROW_HEIGHT);
         var rowHeight = dc.getHeight() / rows;
         var right = dc.getWidth() - PAD;
@@ -123,7 +123,7 @@ class RaceStatsView extends WatchUi.DataField {
                 right,
                 y,
                 _valueFont,
-                StatsFormatter.displayValue(_stats, _metrics[i]),
+                StatsFormatter.displayValue(stats, _metrics[i]),
                 Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
             );
         }
