@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">Numerische ID aus der Wettkampf-URL</string>
     <string id="SettingBib">Startnummer</string>
     <string id="SettingBibPrompt">Deine Startnummer</string>
-    <string id="SettingMetric">Messwert</string>
-    <string id="SettingMetricPrompt">Welcher Wert in diesem Feld angezeigt wird</string>
+    <string id="SettingRowCount">Zeilen</string>
+    <string id="SettingRowCountPrompt">Wie viele Werte angezeigt werden</string>
+    <string id="SettingRow1">Zeile 1</string>
+    <string id="SettingRow2">Zeile 2</string>
+    <string id="SettingRow3">Zeile 3</string>
+    <string id="SettingRow4">Zeile 4</string>
+    <string id="SettingMetricPrompt">Welcher Wert in dieser Zeile angezeigt wird</string>
 
     <string id="MetricPlaceAbs">Platz abs</string>
     <string id="MetricPlaceGroup">Platz gr</string>

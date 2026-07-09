@@ -7,8 +7,13 @@
     <string id="SettingCompetitionIdPrompt">ID numérique tiré de l'URL de la course</string>
     <string id="SettingBib">Dossard</string>
     <string id="SettingBibPrompt">Votre numéro de dossard</string>
-    <string id="SettingMetric">Donnée</string>
-    <string id="SettingMetricPrompt">Quelle valeur ce champ affiche</string>
+    <string id="SettingRowCount">Lignes</string>
+    <string id="SettingRowCountPrompt">Combien de valeurs afficher</string>
+    <string id="SettingRow1">Ligne 1</string>
+    <string id="SettingRow2">Ligne 2</string>
+    <string id="SettingRow3">Ligne 3</string>
+    <string id="SettingRow4">Ligne 4</string>
+    <string id="SettingMetricPrompt">Quelle valeur cette ligne affiche</string>
 
     <string id="MetricPlaceAbs">Place abs</string>
     <string id="MetricPlaceGroup">Place gr</string>

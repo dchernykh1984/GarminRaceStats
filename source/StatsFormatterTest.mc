@@ -120,6 +120,37 @@ function everyMetricHasALabelResource(logger as Test.Logger) as Boolean {
     return true;
 }
 
+//! A configured row count is clamped into 1..MAX_ROWS, so a bad setting can never
+//! make the field draw nothing or more rows than there are metric settings.
+(:test)
+function clampRowCountKeepsRowsInRange(logger as Test.Logger) as Boolean {
+    return (
+        StatsFormatter.clampRowCount(1) == 1 &&
+        StatsFormatter.clampRowCount(4) == 4 &&
+        StatsFormatter.clampRowCount(0) == 1 &&
+        StatsFormatter.clampRowCount(-3) == 1 &&
+        StatsFormatter.clampRowCount(99) == StatsFormatter.MAX_ROWS
+    );
+}
+
+//! A tall slot draws every configured row; a short one drops rows rather than
+//! squeezing them below the readable minimum, but always draws at least one.
+(:test)
+function visibleRowsFitsRowsToSlotHeight(logger as Test.Logger) as Boolean {
+    return (
+        // 322px (Edge 540 full screen) fits all 4 configured rows
+        StatsFormatter.visibleRows(4, 322, 22) == 4 &&
+        // 160px (half screen) fits 4 rows of >=22px too
+        StatsFormatter.visibleRows(4, 160, 22) == 4 &&
+        // 79px (quarter screen) only fits 3
+        StatsFormatter.visibleRows(4, 79, 22) == 3 &&
+        // never more rows than configured
+        StatsFormatter.visibleRows(1, 322, 22) == 1 &&
+        // a slot thinner than one row still draws one
+        StatsFormatter.visibleRows(4, 10, 22) == 1
+    );
+}
+
 //! Every metric's (English) label is non-empty and at most 12 characters, so no
 //! field header is truncated on device. Guards the length budget as metrics grow.
 (:test)
