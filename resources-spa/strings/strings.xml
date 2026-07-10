@@ -19,6 +19,16 @@
     <string id="SettingRow8">Fila 8</string>
     <string id="SettingRow9">Fila 9</string>
     <string id="SettingRow10">Fila 10</string>
+    <string id="RowCount1">1</string>
+    <string id="RowCount2">2</string>
+    <string id="RowCount3">3</string>
+    <string id="RowCount4">4</string>
+    <string id="RowCount5">5</string>
+    <string id="RowCount6">6</string>
+    <string id="RowCount7">7</string>
+    <string id="RowCount8">8</string>
+    <string id="RowCount9">9</string>
+    <string id="RowCount10">10</string>
     <string id="SettingMetricPrompt">Qué valor muestra esta fila</string>
 
     <string id="MetricPlaceAbs">Puesto abs</string>
