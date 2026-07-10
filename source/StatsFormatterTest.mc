@@ -162,6 +162,45 @@ function visibleRowsFitsRowsToSlotHeight(logger as Test.Logger) as Boolean {
     );
 }
 
+//! A grid only appears when it earns its place: enough metrics, and a slot wide
+//! and tall enough. Sizes below are real Edge 540 slots (screen is 246x322).
+(:test)
+function columnCountPicksAGridOnlyWhenItFits(logger as Test.Logger) as Boolean {
+    return (
+        // full screen, 8 metrics -> grid
+        StatsFormatter.columnCount(8, 246, 322) == 2 &&
+        // half screen ("2 Fields"), 4 metrics -> still a grid
+        StatsFormatter.columnCount(4, 246, 160) == 2 &&
+        // too few metrics -> one column reads better
+        StatsFormatter.columnCount(3, 246, 322) == 1 &&
+        // narrow cell from the "8 Fields" layout (122px wide) -> one column
+        StatsFormatter.columnCount(8, 122, 62) == 1 &&
+        // a quarter-screen strip (79px) still fits two rows of ~39px cells
+        StatsFormatter.columnCount(8, 246, 79) == 2 &&
+        // but a cell shorter than two stacked cells (2x34) stays one column
+        StatsFormatter.columnCount(8, 246, 60) == 1
+    );
+}
+
+//! Cells are dropped, never squeezed below the readable minimum, and the grid
+//! rows follow from the cells and columns.
+(:test)
+function visibleCellsAndGridRowsFitTheSlot(logger as Test.Logger) as Boolean {
+    return (
+        // 322px / 34px = 9 rows, x2 columns = 18 cells: all 10 fit
+        StatsFormatter.visibleCells(10, 2, 322, 34) == 10 &&
+        // 160px / 34px = 4 rows, x2 = 8 cells: two of the ten are dropped
+        StatsFormatter.visibleCells(10, 2, 160, 34) == 8 &&
+        // a slot shorter than one cell still draws one row of cells
+        StatsFormatter.visibleCells(10, 2, 10, 34) == 2 &&
+        // rounding up: 5 cells in 2 columns need 3 rows
+        StatsFormatter.gridRows(5, 2) == 3 &&
+        StatsFormatter.gridRows(10, 2) == 5 &&
+        StatsFormatter.gridRows(4, 2) == 2 &&
+        StatsFormatter.gridRows(3, 1) == 3
+    );
+}
+
 //! Reading a property this build declares but an older settings store never had
 //! must yield null, not an exception: a data field may never crash on settings.
 (:test)
