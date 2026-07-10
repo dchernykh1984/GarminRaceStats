@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.5.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.4.0...garmin-race-stats-v0.5.0) (2026-07-10)
+
+
+### Features
+
+* dedicate a public app id and add a privacy policy for store release ([7192217](https://github.com/dchernykh1984/GarminRaceStats/commit/71922171f2c1810109bd59ae18d1792b08469767))
+
 ## [0.4.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.3.0...garmin-race-stats-v0.4.0) (2026-07-10)
 
 
