@@ -236,6 +236,25 @@ module StatsFormatter {
         return valueFor(stats, metric);
     }
 
+    //! Placeholder drawn when a value is not available yet - the same "no data"
+    //! dashes a native Garmin field shows before its sensor reports.
+    const NO_VALUE = "--";
+
+    //! Like displayValue, but never blank: a missing value becomes NO_VALUE. This
+    //! is what the field actually draws, so an unconfigured or not-yet-fetched
+    //! field reads as "waiting for data" instead of looking broken (a store
+    //! reviewer testing it has no race configured, so every value is missing).
+    //! @param stats The cached per-bib dictionary, or null when nothing is cached
+    //! @param metric A metric from METRICS
+    //! @return The display string, or NO_VALUE when unavailable
+    function displayOr(stats as Dictionary?, metric as String) as String {
+        var value = displayValue(stats, metric);
+        if (value.equals("")) {
+            return NO_VALUE;
+        }
+        return value;
+    }
+
     //! "place/qty" (e.g. "17/84"), or just the place when qty is missing, or ""
     //! when there is no place yet. A non-numeric place (e.g. "DSQ") is shown on
     //! its own, since "DSQ/84" would be nonsense.
