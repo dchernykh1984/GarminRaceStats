@@ -109,6 +109,76 @@ module StatsFormatter {
         return rows;
     }
 
+    //! A grid cell stacks a label above its value, so it needs more height than a
+    //! single side-by-side row.
+    const MIN_CELL_HEIGHT = 34;
+
+    //! Below this slot width two columns would be too narrow to read.
+    const MIN_TWO_COLUMN_WIDTH = 180;
+
+    //! With fewer metrics than this, a single column reads better than a grid.
+    const MIN_TWO_COLUMN_METRICS = 4;
+
+    //! How many columns to draw in a slot: one tall list, or a two-column grid
+    //! like the native Garmin data screen. A grid only pays off when there are
+    //! enough metrics and the slot is wide and tall enough for readable cells;
+    //! a thin cell from an 8-field layout stays a single column.
+    //! @param metricCount How many metrics the rider configured
+    //! @param widthPx The slot width
+    //! @param heightPx The slot height
+    //! @return 1 or 2
+    function columnCount(metricCount as Number, widthPx as Number, heightPx as Number) as Number {
+        if (metricCount < MIN_TWO_COLUMN_METRICS) {
+            return 1;
+        }
+        if (widthPx < MIN_TWO_COLUMN_WIDTH) {
+            return 1;
+        }
+        if (heightPx < 2 * MIN_CELL_HEIGHT) {
+            return 1;
+        }
+        return 2;
+    }
+
+    //! How many cells actually fit, given the columns and the readable minimum
+    //! cell height. Always at least one, never more than configured.
+    //! @param configured The row count from settings
+    //! @param columns The column count from columnCount
+    //! @param heightPx The slot height
+    //! @param minCellHeight The smallest readable cell height
+    //! @return The number of cells to draw
+    function visibleCells(
+        configured as Number,
+        columns as Number,
+        heightPx as Number,
+        minCellHeight as Number
+    ) as Number {
+        var cells = clampRowCount(configured);
+        if (minCellHeight <= 0 || columns < 1) {
+            return cells;
+        }
+        var rows = heightPx / minCellHeight;
+        if (rows < 1) {
+            rows = 1;
+        }
+        var fits = rows * columns;
+        if (fits < cells) {
+            return fits;
+        }
+        return cells;
+    }
+
+    //! Grid rows needed for `cells` cells laid out in `columns` columns.
+    //! @param cells The number of cells drawn
+    //! @param columns The column count
+    //! @return The number of grid rows
+    function gridRows(cells as Number, columns as Number) as Number {
+        if (columns < 1) {
+            return cells;
+        }
+        return (cells + columns - 1) / columns;
+    }
+
     //! Index of the largest font that fits a box, given each candidate font's
     //! measured width and height (candidates ordered smallest first). Falls back
     //! to the smallest font when nothing fits, so a row is always drawn rather
