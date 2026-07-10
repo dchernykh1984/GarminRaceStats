@@ -5,7 +5,7 @@
       site for a rider's live standing (place, gaps, laps) and renders one metric.
       Web requests run only in the background temporal process (min 5 min cadence).
     -->
-    <iq:application entry="GarminRaceStatsApp" id="3bdb0b5bfb544e4cb9c91bf6c419e1a3" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="datafield">
+    <iq:application entry="GarminRaceStatsApp" id="e329d6f9e6704ab386c720f73f8cdbe1" launcherIcon="@Drawables.LauncherIcon" minSdkVersion="3.1.0" name="@Strings.AppName" type="datafield">
         <iq:products>
             <iq:product id="approachs50"/>
             <iq:product id="approachs7042mm"/>
