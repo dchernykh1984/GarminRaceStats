@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.5.0...garmin-race-stats-v0.6.0) (2026-07-10)
+
+
+### Features
+
+* show -- placeholder instead of blank when a value is missing ([c30be3e](https://github.com/dchernykh1984/GarminRaceStats/commit/c30be3e0010d5ec781d26548270bcb2d83c2c5d4))
+
 ## [0.5.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.4.0...garmin-race-stats-v0.5.0) (2026-07-10)
 
 
