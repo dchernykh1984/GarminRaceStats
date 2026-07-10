@@ -51,6 +51,8 @@ Session.vim
 
 # Build output
 bin/
+# Store upload artifacts (.iq packages, cover/screen images).
+dist/
 *.prg
 *.prg.debug.xml
 *.iq
