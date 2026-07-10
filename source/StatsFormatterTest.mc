@@ -162,6 +162,16 @@ function visibleRowsFitsRowsToSlotHeight(logger as Test.Logger) as Boolean {
     );
 }
 
+//! Reading a property this build declares but an older settings store never had
+//! must yield null, not an exception: a data field may never crash on settings.
+(:test)
+function propertyNeverThrowsOnUnknownKey(logger as Test.Logger) as Boolean {
+    return (
+        StatsStore.property("noSuchPropertyExistsHere") == null &&
+        StatsStore.property(StatsStore.PROP_ROW_COUNT) != null
+    );
+}
+
 //! Font choice takes the biggest candidate that fits both dimensions, and falls
 //! back to the smallest rather than dropping the text when nothing fits.
 (:test)
