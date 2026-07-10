@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.4.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.3.0...garmin-race-stats-v0.4.0) (2026-07-10)
+
+
+### Features
+
+* add an auto two-column grid layout like the native data screen ([e1a2569](https://github.com/dchernykh1984/GarminRaceStats/commit/e1a25696e52f8b8aef68867b451a4ae92466fb28))
+* ship English as an explicit language alongside the default ([66713b1](https://github.com/dchernykh1984/GarminRaceStats/commit/66713b1bbe6725a221119c7b046e2ed908bd6f82))
+* support up to 10 metric rows with slot-aware font sizing ([2aa726e](https://github.com/dchernykh1984/GarminRaceStats/commit/2aa726ed48b3b48f30545b800ce63e1f2efd9737))
+
+
+### Bug Fixes
+
+* give row-count list entries real localized string resources ([23b42b0](https://github.com/dchernykh1984/GarminRaceStats/commit/23b42b08f3028249ad17d0a04931ba2dc9391f68))
+* never crash the field when a settings key cannot be read ([62099a4](https://github.com/dchernykh1984/GarminRaceStats/commit/62099a4a17c6d04ccb229b28ae870b357990f28f))
+* stop the background fetch after the ride and read stats on draw ([c58f0d4](https://github.com/dchernykh1984/GarminRaceStats/commit/c58f0d4b3c74167fda5884c982b2d6dda54ed80c))
+
 ## [0.3.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.2.0...garmin-race-stats-v0.3.0) (2026-07-09)
 
 
