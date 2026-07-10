@@ -33,6 +33,17 @@ repos:
         # resources/ stays ASCII-only.
         exclude: '(^resources-|package-lock\.json$|CHANGELOG\.md$)'
 
+      # resources/ is the default language and holds English; resources-eng/ makes
+      # English explicit (so it shows up as its own language, not just "Default").
+      # Keeping the two byte-identical is the only thing stopping the two English
+      # copies from silently drifting apart.
+      - id: english-resources-in-sync
+        name: resources-eng matches the default resources
+        entry: cmp resources/strings/strings.xml resources-eng/strings/strings.xml
+        language: system
+        pass_filenames: false
+        files: '^resources(-eng)?/strings/strings\.xml$'
+
       # Monkey C formatting via the Prettier plugin. Needs `npm install` first
       # (it runs the locally installed prettier), so it is fast and stays on the
       # normal commit stage.
