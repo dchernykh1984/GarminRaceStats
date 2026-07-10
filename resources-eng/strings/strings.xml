@@ -1,0 +1,49 @@
+<resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
+    <string id="AppName">RaceStats</string>
+
+    <string id="SettingBaseUrl">Site URL</string>
+    <string id="SettingBaseUrlPrompt">Base URL of the timing site</string>
+    <string id="SettingCompetitionId">Competition ID</string>
+    <string id="SettingCompetitionIdPrompt">Numeric id from the race page URL</string>
+    <string id="SettingBib">Bib number</string>
+    <string id="SettingBibPrompt">Your race number</string>
+    <string id="SettingRowCount">Rows</string>
+    <string id="SettingRowCountPrompt">How many metrics to show</string>
+    <string id="SettingRow1">Row 1</string>
+    <string id="SettingRow2">Row 2</string>
+    <string id="SettingRow3">Row 3</string>
+    <string id="SettingRow4">Row 4</string>
+    <string id="SettingRow5">Row 5</string>
+    <string id="SettingRow6">Row 6</string>
+    <string id="SettingRow7">Row 7</string>
+    <string id="SettingRow8">Row 8</string>
+    <string id="SettingRow9">Row 9</string>
+    <string id="SettingRow10">Row 10</string>
+    <string id="RowCount1">1</string>
+    <string id="RowCount2">2</string>
+    <string id="RowCount3">3</string>
+    <string id="RowCount4">4</string>
+    <string id="RowCount5">5</string>
+    <string id="RowCount6">6</string>
+    <string id="RowCount7">7</string>
+    <string id="RowCount8">8</string>
+    <string id="RowCount9">9</string>
+    <string id="RowCount10">10</string>
+    <string id="SettingMetricPrompt">Which value this row shows</string>
+
+    <string id="MetricPlaceAbs">Place abs</string>
+    <string id="MetricPlaceGroup">Place gr</string>
+    <string id="MetricGapPrevAbs">Gap ahd abs</string>
+    <string id="MetricGapNextAbs">Gap bhd abs</string>
+    <string id="MetricGapLeaderAbs">Gap ldr abs</string>
+    <string id="MetricGapPrevAbsDelta">Dynam ah abs</string>
+    <string id="MetricGapNextAbsDelta">Dynam bh abs</string>
+    <string id="MetricGapLeaderAbsDelta">Dynam ld abs</string>
+    <string id="MetricGapPrevGroup">Gap ahd gr</string>
+    <string id="MetricGapNextGroup">Gap bhd gr</string>
+    <string id="MetricGapLeaderGroup">Gap ldr gr</string>
+    <string id="MetricGapPrevGroupDelta">Dynam ah gr</string>
+    <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
+    <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
+    <string id="MetricLaps">Laps</string>
+</resources>
