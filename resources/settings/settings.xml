@@ -33,16 +33,16 @@
         <!-- How many of the metric rows below the field actually draws. -->
         <setting propertyKey="@Properties.rowCount" title="@Strings.SettingRowCount" prompt="@Strings.SettingRowCountPrompt">
             <settingConfig type="list">
-                <listEntry value="1">1</listEntry>
-                <listEntry value="2">2</listEntry>
-                <listEntry value="3">3</listEntry>
-                <listEntry value="4">4</listEntry>
-                <listEntry value="5">5</listEntry>
-                <listEntry value="6">6</listEntry>
-                <listEntry value="7">7</listEntry>
-                <listEntry value="8">8</listEntry>
-                <listEntry value="9">9</listEntry>
-                <listEntry value="10">10</listEntry>
+                <listEntry value="1">@Strings.RowCount1</listEntry>
+                <listEntry value="2">@Strings.RowCount2</listEntry>
+                <listEntry value="3">@Strings.RowCount3</listEntry>
+                <listEntry value="4">@Strings.RowCount4</listEntry>
+                <listEntry value="5">@Strings.RowCount5</listEntry>
+                <listEntry value="6">@Strings.RowCount6</listEntry>
+                <listEntry value="7">@Strings.RowCount7</listEntry>
+                <listEntry value="8">@Strings.RowCount8</listEntry>
+                <listEntry value="9">@Strings.RowCount9</listEntry>
+                <listEntry value="10">@Strings.RowCount10</listEntry>
             </settingConfig>
         </setting>
 
