@@ -71,6 +71,18 @@ function displayValueNonPlaceIsRawValue(logger as Test.Logger) as Boolean {
     return StatsFormatter.displayValue(stats, "gap_prev_abs").equals("+0:12");
 }
 
+//! displayOr shows a real value when present, and the "--" placeholder when not
+//! (no snapshot, or an unconfigured field) - so the field never looks blank.
+(:test)
+function displayOrFallsBackToDashes(logger as Test.Logger) as Boolean {
+    var stats = ({ "gap_prev_abs" => "+0:12" }) as Dictionary;
+    return (
+        StatsFormatter.displayOr(stats, "gap_prev_abs").equals("+0:12") &&
+        StatsFormatter.displayOr(stats, "laps").equals(StatsFormatter.NO_VALUE) &&
+        StatsFormatter.displayOr(null, "place_abs").equals(StatsFormatter.NO_VALUE)
+    );
+}
+
 //! The dropdown index maps to the matching metric; the default (0) is place_abs
 //! and an out-of-range index falls back to it too.
 (:test)

@@ -142,7 +142,7 @@ class RaceStatsView extends WatchUi.DataField {
                 right,
                 y,
                 _valueFont,
-                StatsFormatter.displayValue(stats, _metrics[i]),
+                StatsFormatter.displayOr(stats, _metrics[i]),
                 Graphics.TEXT_JUSTIFY_RIGHT | Graphics.TEXT_JUSTIFY_VCENTER
             );
         }
@@ -198,7 +198,7 @@ class RaceStatsView extends WatchUi.DataField {
                 centre,
                 top + _labelHeight + (cellHeight - _labelHeight) / 2,
                 _valueFont,
-                StatsFormatter.displayValue(stats, _metrics[i]),
+                StatsFormatter.displayOr(stats, _metrics[i]),
                 Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
             );
         }
