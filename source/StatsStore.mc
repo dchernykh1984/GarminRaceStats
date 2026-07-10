@@ -41,11 +41,26 @@ module StatsStore {
         return null;
     }
 
+    //! One property value, or null when it cannot be read.
+    //!
+    //! A settings store written by an older build of the app can lack keys this
+    //! build declares, and Properties.getValue throws on an unknown key. A data
+    //! field must never crash: the caller falls back to its default instead.
+    //! @param key The property id
+    //! @return The stored value, or null when the key is missing or unreadable
+    function property(key as String) as Application.Properties.ValueType? {
+        try {
+            return Application.Properties.getValue(key);
+        } catch (e) {
+            return null;
+        }
+    }
+
     //! How many metric rows the rider asked the field to draw. Not clamped here;
     //! StatsFormatter.clampRowCount owns that rule so it stays unit-testable.
     //! @return The configured row count, or the default when unset
     function rowCount() as Number {
-        var rows = Application.Properties.getValue(PROP_ROW_COUNT);
+        var rows = property(PROP_ROW_COUNT);
         if (rows instanceof Number) {
             return rows;
         }
@@ -59,7 +74,7 @@ module StatsStore {
     //! @param row The 1-based row number
     //! @return The selected index, or the default when unset
     function metricIndexForRow(row as Number) as Number {
-        var index = Application.Properties.getValue(PROP_METRIC_PREFIX + row.toString());
+        var index = property(PROP_METRIC_PREFIX + row.toString());
         if (index instanceof Number) {
             return index;
         }
@@ -70,9 +85,9 @@ module StatsStore {
     //! been configured yet (in which case the background service skips the fetch).
     //! @return The request url, or null when settings are incomplete
     function buildRequestUrl() as String? {
-        var baseUrl = Application.Properties.getValue(PROP_BASE_URL);
-        var competitionId = Application.Properties.getValue(PROP_COMPETITION_ID);
-        var bib = Application.Properties.getValue(PROP_BIB);
+        var baseUrl = property(PROP_BASE_URL);
+        var competitionId = property(PROP_COMPETITION_ID);
+        var bib = property(PROP_BIB);
 
         if (!(baseUrl instanceof String) || baseUrl.length() == 0) {
             return null;
