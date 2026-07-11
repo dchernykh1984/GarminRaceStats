@@ -127,6 +127,13 @@ release. Uploading the attached `.iq` to the Connect IQ Store - with the
 description, screenshots and release notes - stays manual, because Garmin has no
 public publish API.
 
+A separate **beta** app is available for on-device testing without touching the
+public listing. A beta must use a different Connect IQ app id, so the manual
+**Build Beta** workflow (`workflow_dispatch`) runs `scripts/make_beta_manifest.py`
+to swap the manifest to the beta id and the `RaceStats Beta` name, builds a signed
+`.iq`, and uploads it as a workflow artifact. Download that artifact and upload it
+to the beta listing with "Upload New Version". Public builds are unaffected.
+
 ## Contributing
 
 Use Conventional Commit messages, keep each commit atomic, and cover new logic
