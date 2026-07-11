@@ -1,0 +1,57 @@
+name: Build Beta
+
+# Manually build the beta store package. The beta and public apps must have
+# different Connect IQ app ids, so this rewrites the manifest to the beta id and
+# name (see scripts/make_beta_manifest.py) and packages a signed .iq, uploaded as
+# a workflow artifact. Download it and upload it to the beta listing with
+# "Upload New Version".
+#
+# Public builds are untouched: the release pipeline compiles the committed
+# manifest as-is. This is a separate, on-demand channel for on-device testing.
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: Branch, tag or commit to build the beta from
+        required: false
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build-beta:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ inputs.ref }}
+
+      - name: Rewrite the manifest for the beta app (id + name)
+        run: python3 scripts/make_beta_manifest.py
+
+      - name: Build the signed beta .iq
+        env:
+          DEVELOPER_KEY_BASE64: ${{ secrets.DEVELOPER_KEY_BASE64 }}
+        run: |
+          docker run --rm \
+            -v "$PWD":/app -w /app \
+            -e DEVELOPER_KEY_BASE64 \
+            --entrypoint bash \
+            ghcr.io/matco/connectiq-tester:latest -c '
+              set -eu
+              echo "$DEVELOPER_KEY_BASE64" | base64 -d > /tmp/developer_key.der
+              /connectiq/bin/monkeyc \
+                -f monkey.jungle \
+                -o GarminRaceStats-beta.iq \
+                -e -r \
+                -y /tmp/developer_key.der
+            '
+
+      - name: Upload the beta package
+        uses: actions/upload-artifact@v7
+        with:
+          name: GarminRaceStats-beta-iq
+          path: GarminRaceStats-beta.iq
+          if-no-files-found: error
