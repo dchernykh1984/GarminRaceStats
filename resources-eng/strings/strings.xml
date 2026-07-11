@@ -1,5 +1,7 @@
 <resources xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://developer.garmin.com/downloads/connect-iq/resources.xsd">
     <string id="AppName">RaceStats</string>
+    <!-- Name of the separate beta build (see scripts/make_beta_manifest.py). -->
+    <string id="AppNameBeta">RaceStats Beta</string>
 
     <string id="SettingBaseUrl">Site URL</string>
     <string id="SettingBaseUrlPrompt">Base URL of the timing site</string>
