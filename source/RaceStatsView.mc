@@ -1,6 +1,7 @@
 import Toybox.Activity;
 import Toybox.Graphics;
 import Toybox.Lang;
+import Toybox.System;
 import Toybox.WatchUi;
 
 //! The data field itself. A full DataField (rather than a SimpleDataField) so it
@@ -8,13 +9,19 @@ import Toybox.WatchUi;
 //! picks the native screen layout, so that slot may be the whole screen or a thin
 //! strip, and we size the text and drop metrics to fit.
 //!
-//! Two shapes, chosen automatically from the slot (see StatsFormatter.columnCount):
+//! Three shapes, chosen automatically from the slot and the screen:
 //!
-//!   one column                two columns (like the native data screen)
-//!   +----------------+        +--------+--------+
-//!   | Place abs 3/4  |        | Place abs|Place gr|
-//!   | Gap ahd  +0:22 |        |   3/4    |  2/3   |
-//!   +----------------+        +--------+--------+
+//!   one column           two columns (rectangular)   bands (round)
+//!   +--------------+     +---------+--------+        +-------------+
+//!   | Place abs 3/4|     |Place abs|Place gr|        |  Place abs  |
+//!   | Gap ahd +0:22|     |   3/4   |  2/3   |        | Gap ahd|Laps|
+//!   +--------------+     +---------+--------+        |  Gap bhd    |
+//!                                                    +-------------+
+//!
+//! The band shape exists because a round screen slices the corners off the slot:
+//! text that fits its cell can still be cut off by the bezel. See RoundLayout -
+//! the rule (columns only in the middle bands, content pushed away from the
+//! bezel) is read off Garmin's own native layouts.
 //!
 //! Drawing our own cells is what lets a single field replace the "clones" pattern:
 //! one app, one Connect IQ field, several metrics at once.
@@ -47,9 +54,25 @@ class RaceStatsView extends WatchUi.DataField {
     private var _labelFont as FontDefinition = Graphics.FONT_XTINY;
     private var _labelHeight as Number = 0;
 
-    //! Set whenever the rows change, so the fonts are re-picked on the next draw
-    //! (font choice needs a device context, which only onLayout/onUpdate have).
-    private var _fontsStale as Boolean = true;
+    //! True when the screen is round (or semi-round): the corners of the slot are
+    //! then off screen, and the band shape is drawn instead of the grid.
+    private var _round as Boolean = false;
+
+    //! The band plan, one entry per drawn cell (round screens only). Built once
+    //! per layout rather than per frame: the geometry only changes when the slot
+    //! or the settings change.
+    private var _cellCentreX as Array<Number> = [] as Array<Number>;
+    private var _cellLabelY as Array<Number> = [] as Array<Number>;
+    private var _cellValueY as Array<Number> = [] as Array<Number>;
+    private var _cellValueFont as Array<FontDefinition> = [] as Array<FontDefinition>;
+    private var _cellHasLabel as Array<Boolean> = [] as Array<Boolean>;
+    private var _bandColumns as Array<Number> = [] as Array<Number>;
+    private var _bandHeight as Number = 0;
+
+    //! Set whenever the rows change, so the layout is re-picked on the next draw.
+    //! Font choice needs a device context, and the obscurity flags are only valid
+    //! during onUpdate, so all of it happens there rather than in onLayout.
+    private var _layoutStale as Boolean = true;
 
     //! Constructor: resolve the configured rows, with their localized labels.
     public function initialize() {
@@ -76,13 +99,14 @@ class RaceStatsView extends WatchUi.DataField {
         }
         _metrics = metrics;
         _labels = labels;
-        _fontsStale = true;
+        _layoutStale = true;
     }
 
-    //! Pick the shape and the fonts once the slot size is known.
-    //! @param dc Device context for the slot this field was placed in
+    //! The slot changed, so the layout must be picked again. The work itself waits
+    //! for onUpdate: getObscurityFlags() is only valid during that call.
+    //! @param dc Device context for the slot this field was placed in (unused)
     public function onLayout(dc as Dc) as Void {
-        selectFonts(dc);
+        _layoutStale = true;
     }
 
     //! Nothing to compute: every value comes from the site snapshot, never from
@@ -95,8 +119,8 @@ class RaceStatsView extends WatchUi.DataField {
     //! Draw the configured metrics in whichever shape fits the slot.
     //! @param dc Device context for the slot this field was placed in
     public function onUpdate(dc as Dc) as Void {
-        if (_fontsStale) {
-            selectFonts(dc);
+        if (_layoutStale) {
+            selectLayout(dc);
         }
 
         var background = getBackgroundColor();
@@ -111,10 +135,278 @@ class RaceStatsView extends WatchUi.DataField {
         dc.clear();
 
         var stats = StatsStore.load();
-        if (_columns == 2) {
+        if (_round) {
+            drawBands(dc, stats, foreground, separator);
+        } else if (_columns == 2) {
             drawGrid(dc, stats, foreground, separator);
         } else {
             drawRows(dc, stats, foreground);
+        }
+    }
+
+    //! Pick the shape, then the fonts and cell geometry that fit it.
+    //! @param dc Device context for the slot this field was placed in
+    private function selectLayout(dc as Dc) as Void {
+        var shape = System.getDeviceSettings().screenShape;
+        _round = shape == System.SCREEN_SHAPE_ROUND || shape == System.SCREEN_SHAPE_SEMI_ROUND;
+
+        if (_round) {
+            planBands(dc);
+        } else {
+            _columns = StatsFormatter.columnCount(_rows, dc.getWidth(), dc.getHeight());
+            if (_columns == 2) {
+                selectGridFonts(dc);
+            } else {
+                selectRowFonts(dc);
+            }
+        }
+        _layoutStale = false;
+    }
+
+    //! Work out, for a round screen, where every label and value goes and how big
+    //! it may be. Each cell is sized against the chord of the circle at the height
+    //! its text actually occupies - not against the cell rectangle, whose corners
+    //! may be off screen. A label with no room for it is dropped rather than
+    //! clipped, which is what the native layouts do in their tightest slots.
+    //! @param dc Device context for the slot this field was placed in
+    private function planBands(dc as Dc) as Void {
+        var width = dc.getWidth();
+        var height = dc.getHeight();
+        var settings = System.getDeviceSettings();
+
+        // Only when the field owns the whole screen do we know where the circle
+        // is: the slot and the screen then share an origin. In a smaller slot the
+        // obscurity flags say which edges the bezel cuts but not where the slot
+        // sits (a slot flagged left and right may be full width or inset by 80px),
+        // so the chord cannot be reconstructed and RoundLayout's conservative
+        // budget is used instead.
+        var fullScreen = width == settings.screenWidth && height == settings.screenHeight;
+        var radius = width / 2;
+
+        var flags = getObscurityFlags();
+        var topCut = (flags & DataField.OBSCURE_TOP) != 0;
+        var bottomCut = (flags & DataField.OBSCURE_BOTTOM) != 0;
+
+        var cells = RoundLayout.visibleMetrics(_rows, height, StatsFormatter.MIN_CELL_HEIGHT);
+        _bandColumns = RoundLayout.bandColumns(cells);
+        _bandHeight = height / _bandColumns.size();
+
+        // Every native round layout captions its fields in the smallest font, and
+        // for good reason: the label sits in the narrowest part of the cell.
+        _labelFont = FONTS[0];
+        _labelHeight = dc.getFontHeight(_labelFont);
+
+        var value = measure(dc, [SAMPLE_VALUE] as Array<String>);
+        var valueWidths = value[0];
+        var valueHeights = value[1];
+
+        _cellCentreX = [] as Array<Number>;
+        _cellLabelY = [] as Array<Number>;
+        _cellValueY = [] as Array<Number>;
+        _cellValueFont = [] as Array<FontDefinition>;
+        _cellHasLabel = [] as Array<Boolean>;
+
+        var cell = 0;
+        for (var band = 0; band < _bandColumns.size(); band++) {
+            var columns = _bandColumns[band];
+            var bandTop = band * _bandHeight;
+
+            for (var column = 0; column < columns && cell < cells; column++) {
+                var cellLeft = (column * width) / columns;
+                var cellRight = ((column + 1) * width) / columns;
+                var labelWidth = dc.getTextDimensions(_labels[cell], _labelFont)[0];
+
+                // Biggest value font whose label+value block fits the band and
+                // stays inside the chord at the height the block ends up at.
+                var chosen = 0;
+                var hasLabel = false;
+                for (var font = FONTS.size() - 1; font >= 0; font--) {
+                    var blockHeight = _labelHeight + valueHeights[font];
+                    if (font > 0 && blockHeight > _bandHeight - 2 * PAD) {
+                        continue;
+                    }
+                    var top = blockTop(band, bandTop, blockHeight, topCut, bottomCut);
+                    var room = usableWidth(
+                        fullScreen,
+                        radius,
+                        top,
+                        top + blockHeight,
+                        cellLeft,
+                        cellRight
+                    );
+                    if (font == 0 || valueWidths[font] <= room) {
+                        chosen = font;
+                        hasLabel = labelWidth <= room;
+                        break;
+                    }
+                }
+
+                // Dropping the label shrinks the block, which can only move it
+                // closer to the centre line and so widen its chord: the value
+                // stays inside. Re-place with the block that is actually drawn.
+                var blockHeight2 = valueHeights[chosen];
+                if (hasLabel) {
+                    blockHeight2 += _labelHeight;
+                }
+                var top2 = blockTop(band, bandTop, blockHeight2, topCut, bottomCut);
+                var span = spanFor(
+                    fullScreen,
+                    radius,
+                    top2,
+                    top2 + blockHeight2,
+                    cellLeft,
+                    cellRight
+                );
+
+                _cellCentreX.add((span[0] + span[1]) / 2);
+                _cellValueFont.add(FONTS[chosen]);
+                _cellHasLabel.add(hasLabel);
+                if (hasLabel) {
+                    _cellLabelY.add(top2 + _labelHeight / 2);
+                    _cellValueY.add(top2 + _labelHeight + valueHeights[chosen] / 2);
+                } else {
+                    _cellLabelY.add(top2);
+                    _cellValueY.add(top2 + valueHeights[chosen] / 2);
+                }
+                cell++;
+            }
+        }
+    }
+
+    //! Where the label+value block sits inside its band. Against the bezel it is
+    //! pushed away from it - down in the top band, up in the bottom one - leaving
+    //! the narrow crescent of the circle empty instead of drawing into it. That
+    //! crescent is exactly where the grid used to put its labels, which is why
+    //! they came out sliced on a watch.
+    //! @param band The band index
+    //! @param bandTop Top of the band, in slot coordinates
+    //! @param blockHeight Height of the label+value block
+    //! @param topCut Whether the bezel cuts the top of the slot
+    //! @param bottomCut Whether the bezel cuts the bottom of the slot
+    //! @return The y of the top of the block, in slot coordinates
+    private function blockTop(
+        band as Number,
+        bandTop as Number,
+        blockHeight as Number,
+        topCut as Boolean,
+        bottomCut as Boolean
+    ) as Number {
+        if (band == 0 && topCut) {
+            return bandTop + _bandHeight - blockHeight - PAD;
+        }
+        if (band == _bandColumns.size() - 1 && bottomCut) {
+            return bandTop + PAD;
+        }
+        return bandTop + (_bandHeight - blockHeight) / 2;
+    }
+
+    //! The part of a cell a text block spanning [top, bottom] can use.
+    //! @param fullScreen Whether the slot is the whole screen
+    //! @param radius The screen radius
+    //! @param top Top of the text block
+    //! @param bottom Bottom of the text block
+    //! @param cellLeft Left edge of the cell
+    //! @param cellRight Right edge of the cell
+    //! @return [left, right] in slot coordinates
+    private function spanFor(
+        fullScreen as Boolean,
+        radius as Number,
+        top as Number,
+        bottom as Number,
+        cellLeft as Number,
+        cellRight as Number
+    ) as Array<Number> {
+        var left = cellLeft;
+        var right = cellRight;
+
+        if (fullScreen) {
+            var chord = RoundLayout.spanFor(radius, top, bottom);
+            if (chord[0] > left) {
+                left = chord[0];
+            }
+            if (chord[1] < right) {
+                right = chord[1];
+            }
+        } else {
+            var inset = ((cellRight - cellLeft) * (100 - RoundLayout.PARTIAL_WIDTH_PERCENT)) / 200;
+            left += inset;
+            right -= inset;
+        }
+
+        if (right < left) {
+            right = left;
+        }
+        return [left, right] as Array<Number>;
+    }
+
+    //! Text width available to a block, once the chord and the padding are taken
+    //! off. Never negative.
+    //! @param fullScreen Whether the slot is the whole screen
+    //! @param radius The screen radius
+    //! @param top Top of the text block
+    //! @param bottom Bottom of the text block
+    //! @param cellLeft Left edge of the cell
+    //! @param cellRight Right edge of the cell
+    //! @return The width the text may occupy
+    private function usableWidth(
+        fullScreen as Boolean,
+        radius as Number,
+        top as Number,
+        bottom as Number,
+        cellLeft as Number,
+        cellRight as Number
+    ) as Number {
+        var span = spanFor(fullScreen, radius, top, bottom, cellLeft, cellRight);
+        var room = span[1] - span[0] - 2 * PAD;
+        if (room < 0) {
+            return 0;
+        }
+        return room;
+    }
+
+    //! Round screens: bands, each cell centred on the part of it that is on screen.
+    //! @param dc Device context
+    //! @param stats The cached snapshot, or null
+    //! @param foreground The text colour
+    //! @param separator The separator colour
+    private function drawBands(
+        dc as Dc,
+        stats as Dictionary?,
+        foreground as Number,
+        separator as Number
+    ) as Void {
+        var width = dc.getWidth();
+
+        dc.setColor(separator, Graphics.COLOR_TRANSPARENT);
+        dc.setPenWidth(1);
+        for (var band = 0; band < _bandColumns.size(); band++) {
+            var top = band * _bandHeight;
+            if (band > 0) {
+                dc.drawLine(0, top, width, top);
+            }
+            if (_bandColumns[band] == 2) {
+                dc.drawLine(width / 2, top, width / 2, top + _bandHeight);
+            }
+        }
+
+        dc.setColor(foreground, Graphics.COLOR_TRANSPARENT);
+        for (var cell = 0; cell < _cellValueFont.size(); cell++) {
+            if (_cellHasLabel[cell]) {
+                dc.drawText(
+                    _cellCentreX[cell],
+                    _cellLabelY[cell],
+                    _labelFont,
+                    _labels[cell],
+                    Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+                );
+            }
+            dc.drawText(
+                _cellCentreX[cell],
+                _cellValueY[cell],
+                _cellValueFont[cell],
+                StatsFormatter.displayOr(stats, _metrics[cell]),
+                Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
+            );
         }
     }
 
@@ -202,18 +494,6 @@ class RaceStatsView extends WatchUi.DataField {
                 Graphics.TEXT_JUSTIFY_CENTER | Graphics.TEXT_JUSTIFY_VCENTER
             );
         }
-    }
-
-    //! Choose the shape, then the biggest fonts that fit it.
-    //! @param dc Device context for the slot this field was placed in
-    private function selectFonts(dc as Dc) as Void {
-        _columns = StatsFormatter.columnCount(_rows, dc.getWidth(), dc.getHeight());
-        if (_columns == 2) {
-            selectGridFonts(dc);
-        } else {
-            selectRowFonts(dc);
-        }
-        _fontsStale = false;
     }
 
     //! One column: label and value share a row, so both columns are measured. The
