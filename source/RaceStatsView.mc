@@ -166,8 +166,13 @@ class RaceStatsView extends WatchUi.DataField {
     //! Work out, for a round screen, where every label and value goes and how big
     //! it may be. Each cell is sized against the chord of the circle at the height
     //! its text actually occupies - not against the cell rectangle, whose corners
-    //! may be off screen. A label with no room for it is dropped rather than
-    //! clipped, which is what the native layouts do in their tightest slots.
+    //! may be off screen.
+    //!
+    //! Captions are decided per band, not per cell: a band shows captions only if
+    //! every cell in it has room for one, so a captioned value never sits beside a
+    //! bare one. A caption's room is measured over the caption's own strip (the top
+    //! of the block), because the value can reach nearer the bezel than the caption
+    //! does - a bottom band's value hugs the rim while its caption stays inward.
     //! @param dc Device context for the slot this field was placed in
     private function planBands(dc as Dc) as Void {
         var width = dc.getWidth();
@@ -187,10 +192,6 @@ class RaceStatsView extends WatchUi.DataField {
         var topCut = (flags & DataField.OBSCURE_TOP) != 0;
         var bottomCut = (flags & DataField.OBSCURE_BOTTOM) != 0;
 
-        var cells = RoundLayout.visibleMetrics(_rows, height, StatsFormatter.MIN_CELL_HEIGHT);
-        _bandColumns = RoundLayout.bandColumns(cells);
-        _bandHeight = height / _bandColumns.size();
-
         // Every native round layout captions its fields in the smallest font, and
         // for good reason: the label sits in the narrowest part of the cell.
         _labelFont = FONTS[0];
@@ -199,6 +200,15 @@ class RaceStatsView extends WatchUi.DataField {
         var value = measure(dc, [SAMPLE_VALUE] as Array<String>);
         var valueWidths = value[0];
         var valueHeights = value[1];
+
+        // A round band must have room for a caption above a readable value; a row
+        // that would not is dropped rather than shown caption-less. This is the
+        // "only as many as fit" limit, and it is stricter than the rectangular one
+        // (which needs room for the value alone): on fenix7 it settles at 8 rows.
+        var minBand = _labelHeight + valueHeights[0] + 2 * PAD;
+        var cells = RoundLayout.visibleMetrics(_rows, height, minBand);
+        _bandColumns = RoundLayout.bandColumns(cells);
+        _bandHeight = height / _bandColumns.size();
 
         _cellCentreX = [] as Array<Number>;
         _cellLabelY = [] as Array<Number>;
@@ -210,23 +220,29 @@ class RaceStatsView extends WatchUi.DataField {
         for (var band = 0; band < _bandColumns.size(); band++) {
             var columns = _bandColumns[band];
             var bandTop = band * _bandHeight;
+            var bandCells = columns;
+            if (cell + bandCells > cells) {
+                bandCells = cells - cell;
+            }
 
-            for (var column = 0; column < columns && cell < cells; column++) {
-                var cellLeft = (column * width) / columns;
-                var cellRight = ((column + 1) * width) / columns;
-                var labelWidth = dc.getTextDimensions(_labels[cell], _labelFont)[0];
+            // Pass 1: pick each cell's value font, and note whether its caption
+            // fits. The band captions its cells only if all of them can.
+            var fonts = [] as Array<Number>;
+            var bandHasLabels = true;
+            for (var c = 0; c < bandCells; c++) {
+                var cellLeft = (c * width) / columns;
+                var cellRight = ((c + 1) * width) / columns;
+                var labelWidth = dc.getTextDimensions(_labels[cell + c], _labelFont)[0];
 
-                // Biggest value font whose label+value block fits the band and
-                // stays inside the chord at the height the block ends up at.
                 var chosen = 0;
-                var hasLabel = false;
+                var labelFits = false;
                 for (var font = FONTS.size() - 1; font >= 0; font--) {
                     var blockHeight = _labelHeight + valueHeights[font];
                     if (font > 0 && blockHeight > _bandHeight - 2 * PAD) {
                         continue;
                     }
                     var top = blockTop(band, bandTop, blockHeight, topCut, bottomCut);
-                    var room = usableWidth(
+                    var valueRoom = usableWidth(
                         fullScreen,
                         radius,
                         top,
@@ -234,42 +250,51 @@ class RaceStatsView extends WatchUi.DataField {
                         cellLeft,
                         cellRight
                     );
-                    if (font == 0 || valueWidths[font] <= room) {
+                    if (font == 0 || valueWidths[font] <= valueRoom) {
                         chosen = font;
-                        hasLabel = labelWidth <= room;
+                        var labelRoom = usableWidth(
+                            fullScreen,
+                            radius,
+                            top,
+                            top + _labelHeight,
+                            cellLeft,
+                            cellRight
+                        );
+                        labelFits = labelWidth <= labelRoom;
                         break;
                     }
                 }
-
-                // Dropping the label shrinks the block, which can only move it
-                // closer to the centre line and so widen its chord: the value
-                // stays inside. Re-place with the block that is actually drawn.
-                var blockHeight2 = valueHeights[chosen];
-                if (hasLabel) {
-                    blockHeight2 += _labelHeight;
+                fonts.add(chosen);
+                if (!labelFits) {
+                    bandHasLabels = false;
                 }
-                var top2 = blockTop(band, bandTop, blockHeight2, topCut, bottomCut);
-                var span = spanFor(
-                    fullScreen,
-                    radius,
-                    top2,
-                    top2 + blockHeight2,
-                    cellLeft,
-                    cellRight
-                );
+            }
+
+            // Pass 2: place every cell the same way for the band, captioned or not.
+            for (var c = 0; c < bandCells; c++) {
+                var cellLeft = (c * width) / columns;
+                var cellRight = ((c + 1) * width) / columns;
+                var chosen = fonts[c];
+
+                var blockHeight = valueHeights[chosen];
+                if (bandHasLabels) {
+                    blockHeight += _labelHeight;
+                }
+                var top = blockTop(band, bandTop, blockHeight, topCut, bottomCut);
+                var span = spanFor(fullScreen, radius, top, top + blockHeight, cellLeft, cellRight);
 
                 _cellCentreX.add((span[0] + span[1]) / 2);
                 _cellValueFont.add(FONTS[chosen]);
-                _cellHasLabel.add(hasLabel);
-                if (hasLabel) {
-                    _cellLabelY.add(top2 + _labelHeight / 2);
-                    _cellValueY.add(top2 + _labelHeight + valueHeights[chosen] / 2);
+                _cellHasLabel.add(bandHasLabels);
+                if (bandHasLabels) {
+                    _cellLabelY.add(top + _labelHeight / 2);
+                    _cellValueY.add(top + _labelHeight + valueHeights[chosen] / 2);
                 } else {
-                    _cellLabelY.add(top2);
-                    _cellValueY.add(top2 + valueHeights[chosen] / 2);
+                    _cellLabelY.add(top);
+                    _cellValueY.add(top + valueHeights[chosen] / 2);
                 }
-                cell++;
             }
+            cell += bandCells;
         }
     }
 

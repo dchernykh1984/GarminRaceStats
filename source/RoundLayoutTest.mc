@@ -101,6 +101,24 @@ function visibleMetricsFitsBandsToTheSlot(logger as Test.Logger) as Boolean {
     );
 }
 
+//! The round row limit is caption-aware: a band must fit a caption above a
+//! value, so fewer rows survive than if only the value had to fit. The minBand
+//! values are label+value heights of the order measured on real devices
+//! (fenix7 ~48px, fr55 ~42px, approachs7047mm ~72px). This is what makes a
+//! fenix7 settle at the 8 rows that look right instead of cramming 10.
+(:test)
+function visibleMetricsCapsRowsToWhereCaptionsFit(logger as Test.Logger) as Boolean {
+    return (
+        // fenix7 (260px): 5 bands of 48px = 240 fit, 6 bands = 288 do not, so the
+        // configured 10 drop to the 8 that fill five bands
+        RoundLayout.visibleMetrics(10, 260, 48) == 8 &&
+        // fr55 (208px): the small screen only holds four bands, so six metrics
+        RoundLayout.visibleMetrics(10, 208, 42) == 6 &&
+        // approachs7047mm (454px): the big screen still fits all ten
+        RoundLayout.visibleMetrics(10, 454, 72) == 10
+    );
+}
+
 //! Half the chord: the full radius on the centre line, nothing at the edge, and
 //! the 3-4-5 triangle in between. Past the edge it is zero rather than an error.
 (:test)
