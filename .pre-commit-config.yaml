@@ -44,6 +44,17 @@ repos:
         pass_filenames: false
         files: '^resources(-eng)?/strings/strings\.xml$'
 
+      # Every shipped locale must translate every string the default defines: a
+      # missing key falls back to English on the device (a Russian watch showing
+      # an English label), and a metric label over 12 chars is truncated. Guards
+      # both across all languages at once.
+      - id: locales-complete
+        name: every locale is a complete, on-device-safe translation
+        entry: python3 scripts/check_locale_strings.py
+        language: system
+        pass_filenames: false
+        files: '^resources(-[a-z]+)?/strings/strings\.xml$'
+
       # Monkey C formatting via the Prettier plugin. Needs `npm install` first
       # (it runs the locally installed prettier), so it is fast and stays on the
       # normal commit stage.
