@@ -203,3 +203,45 @@ function spanForIsWidestAcrossTheMiddle(logger as Test.Logger) as Boolean {
         edgeWidth < 130
     );
 }
+
+//! A block is pushed off the bezel in the top and bottom bands (down, then up)
+//! and centred everywhere else, so the caption never sits in the sliced crescent.
+//! An un-cut edge (a partial slot) is centred rather than pushed.
+(:test)
+function bandBlockTopPushesEdgesAwayFromTheBezel(logger as Test.Logger) as Boolean {
+    return (
+        // top band, top cut: dropped to the bottom of its band (0 + 100 - 40 - 3)
+        RoundLayout.bandBlockTop(0, 3, 100, 40, 3, true, true) == 57 &&
+        // bottom band, bottom cut: raised to the top of its band (200 + 3)
+        RoundLayout.bandBlockTop(2, 3, 100, 40, 3, true, true) == 203 &&
+        // a middle band is centred: 100 + (100 - 40) / 2
+        RoundLayout.bandBlockTop(1, 3, 100, 40, 3, true, true) == 130 &&
+        // an edge that is not actually cut (a partial slot) is centred, not pushed
+        RoundLayout.bandBlockTop(0, 3, 100, 40, 3, false, true) == 30 &&
+        RoundLayout.bandBlockTop(2, 3, 100, 40, 3, true, false) == 230
+    );
+}
+
+//! Why the row count is pulled down until the columns sit central: the caption
+//! rides the top of its block, and a two-column band nearer the centre line gets
+//! a wider chord for it. On fr55 (208px, R=104, 52px bands) the upper columned
+//! band of a 6-metric layout is narrower than the single central band a 5-metric
+//! layout uses, so dropping the sixth metric is what lets the captions fit.
+(:test)
+function reducingRowsWidensTheCaptionChord(logger as Test.Logger) as Boolean {
+    var radius = 104;
+    var labelHeight = 18;
+    var block = 44;
+
+    // 6 metrics -> [1, 2, 2, 1]: the upper two-column band (index 1 of 4) sits
+    // away from the centre line.
+    var upperTop = RoundLayout.bandBlockTop(1, 4, 52, block, 3, true, true);
+    var upper = RoundLayout.spanFor(radius, upperTop, upperTop + labelHeight);
+
+    // 5 metrics -> [1, 1, 2, 1]: the one two-column band (index 2 of 4) straddles
+    // the centre line, so its caption strip spans a wider chord.
+    var centralTop = RoundLayout.bandBlockTop(2, 4, 52, block, 3, true, true);
+    var central = RoundLayout.spanFor(radius, centralTop, centralTop + labelHeight);
+
+    return central[1] - central[0] > upper[1] - upper[0];
+}
