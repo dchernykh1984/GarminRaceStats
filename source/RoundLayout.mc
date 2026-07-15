@@ -113,8 +113,50 @@ module RoundLayout {
             below = -below;
         }
 
+        // halfChord is inlined rather than called: this sits on the deepest call
+        // chain in the app (the round row-fit reduction), and a data field has a
+        // shallow stack, so every saved frame matters. halfChord stays as the
+        // documented, unit-tested statement of the same maths.
         var dy = above > below ? above : below;
-        var half = halfChord(radius, dy);
+        var half = 0;
+        if (dy < radius) {
+            half = Math.sqrt(radius.toDouble() * radius - dy.toDouble() * dy).toNumber();
+        }
         return [radius - half, radius + half] as Array<Number>;
+    }
+
+    //! Where a label+value block sits inside its band, in slot coordinates.
+    //! Against the bezel the block is pushed away from it - down in the top band,
+    //! up in the bottom one - so the narrow crescent of the circle is left empty
+    //! rather than drawn into (that crescent is where the label came out sliced).
+    //! Any other band centres its block. The caption sits at the top of the block,
+    //! so pushing the top band down and the bottom band up both move the caption
+    //! toward the wider middle - except in the top band, where the caption still
+    //! ends up nearest the rim, which is why it is the first to lose its label.
+    //! @param band The band index, counted from the top
+    //! @param bandCount How many bands there are
+    //! @param bandHeight The height of one band
+    //! @param blockHeight The height of the label+value block
+    //! @param pad Breathing room kept from the band edge
+    //! @param topCut Whether the bezel cuts the top of the slot
+    //! @param bottomCut Whether the bezel cuts the bottom of the slot
+    //! @return The y of the top of the block, in slot coordinates
+    function bandBlockTop(
+        band as Number,
+        bandCount as Number,
+        bandHeight as Number,
+        blockHeight as Number,
+        pad as Number,
+        topCut as Boolean,
+        bottomCut as Boolean
+    ) as Number {
+        var bandTop = band * bandHeight;
+        if (band == 0 && topCut) {
+            return bandTop + bandHeight - blockHeight - pad;
+        }
+        if (band == bandCount - 1 && bottomCut) {
+            return bandTop + pad;
+        }
+        return bandTop + (bandHeight - blockHeight) / 2;
     }
 }

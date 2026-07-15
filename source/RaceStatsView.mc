@@ -69,6 +69,14 @@ class RaceStatsView extends WatchUi.DataField {
     private var _bandColumns as Array<Number> = [] as Array<Number>;
     private var _bandHeight as Number = 0;
 
+    //! The round-planning context for one pass: set at the top of planBands and
+    //! read by its helpers instead of being threaded through them, because older
+    //! devices cap a method at nine arguments.
+    private var _topCut as Boolean = false;
+    private var _bottomCut as Boolean = false;
+    private var _valueWidths as Array<Number> = [] as Array<Number>;
+    private var _valueHeights as Array<Number> = [] as Array<Number>;
+
     //! Set whenever the rows change, so the layout is re-picked on the next draw.
     //! Font choice needs a device context, and the obscurity flags are only valid
     //! during onUpdate, so all of it happens there rather than in onLayout.
@@ -170,9 +178,11 @@ class RaceStatsView extends WatchUi.DataField {
     //!
     //! Captions are decided per band, not per cell: a band shows captions only if
     //! every cell in it has room for one, so a captioned value never sits beside a
-    //! bare one. A caption's room is measured over the caption's own strip (the top
-    //! of the block), because the value can reach nearer the bezel than the caption
-    //! does - a bottom band's value hugs the rim while its caption stays inward.
+    //! bare one. And the row count is pulled down until no two-column band has to
+    //! go caption-less - on a small screen a caption only fits the chord in the
+    //! central bands, so we drop rows rather than draw a columned band of bare
+    //! numbers. Single top/bottom bands may still be bare, which is what the native
+    //! round layouts do at their edges.
     //! @param dc Device context for the slot this field was placed in
     private function planBands(dc as Dc) as Void {
         var width = dc.getWidth();
@@ -201,12 +211,23 @@ class RaceStatsView extends WatchUi.DataField {
         var valueWidths = value[0];
         var valueHeights = value[1];
 
-        // A round band must have room for a caption above a readable value; a row
-        // that would not is dropped rather than shown caption-less. This is the
-        // "only as many as fit" limit, and it is stricter than the rectangular one
-        // (which needs room for the value alone): on fenix7 it settles at 8 rows.
+        // Hand the pass-wide context to the helpers through fields, not arguments.
+        _topCut = topCut;
+        _bottomCut = bottomCut;
+        _valueWidths = valueWidths;
+        _valueHeights = valueHeights;
+
+        // First cap: a band must have room for a caption above a readable value,
+        // else the row is dropped rather than shown caption-less. Stricter than the
+        // rectangular limit (which needs room for the value alone).
         var minBand = _labelHeight + valueHeights[0] + 2 * PAD;
-        var cells = RoundLayout.visibleMetrics(_rows, height, minBand);
+        var heightCap = RoundLayout.visibleMetrics(_rows, height, minBand);
+
+        // Second cap: pull the count down further while any two-column band would
+        // have to drop its captions, so a columned band is never a row of bare
+        // numbers. On a wide screen this changes nothing; on a small one it steps
+        // down until the columns sit central enough for a caption to fit.
+        var cells = captionedRoundMetrics(dc, heightCap, width, height, fullScreen, radius);
         _bandColumns = RoundLayout.bandColumns(cells);
         _bandHeight = height / _bandColumns.size();
 
@@ -219,53 +240,31 @@ class RaceStatsView extends WatchUi.DataField {
         var cell = 0;
         for (var band = 0; band < _bandColumns.size(); band++) {
             var columns = _bandColumns[band];
-            var bandTop = band * _bandHeight;
             var bandCells = columns;
             if (cell + bandCells > cells) {
                 bandCells = cells - cell;
             }
 
-            // Pass 1: pick each cell's value font, and note whether its caption
-            // fits. The band captions its cells only if all of them can.
+            // Pass 1: pick each cell's value font and whether its caption fits; the
+            // band captions its cells only if all of them can.
             var fonts = [] as Array<Number>;
             var bandHasLabels = true;
             for (var c = 0; c < bandCells; c++) {
                 var cellLeft = (c * width) / columns;
                 var cellRight = ((c + 1) * width) / columns;
                 var labelWidth = dc.getTextDimensions(_labels[cell + c], _labelFont)[0];
-
-                var chosen = 0;
-                var labelFits = false;
-                for (var font = FONTS.size() - 1; font >= 0; font--) {
-                    var blockHeight = _labelHeight + valueHeights[font];
-                    if (font > 0 && blockHeight > _bandHeight - 2 * PAD) {
-                        continue;
-                    }
-                    var top = blockTop(band, bandTop, blockHeight, topCut, bottomCut);
-                    var valueRoom = usableWidth(
-                        fullScreen,
-                        radius,
-                        top,
-                        top + blockHeight,
-                        cellLeft,
-                        cellRight
-                    );
-                    if (font == 0 || valueWidths[font] <= valueRoom) {
-                        chosen = font;
-                        var labelRoom = usableWidth(
-                            fullScreen,
-                            radius,
-                            top,
-                            top + _labelHeight,
-                            cellLeft,
-                            cellRight
-                        );
-                        labelFits = labelWidth <= labelRoom;
-                        break;
-                    }
-                }
-                fonts.add(chosen);
-                if (!labelFits) {
+                var plan = planCell(
+                    band,
+                    _bandColumns.size(),
+                    _bandHeight,
+                    cellLeft,
+                    cellRight,
+                    labelWidth,
+                    fullScreen,
+                    radius
+                );
+                fonts.add(plan[0]);
+                if (plan[1] == 0) {
                     bandHasLabels = false;
                 }
             }
@@ -280,7 +279,15 @@ class RaceStatsView extends WatchUi.DataField {
                 if (bandHasLabels) {
                     blockHeight += _labelHeight;
                 }
-                var top = blockTop(band, bandTop, blockHeight, topCut, bottomCut);
+                var top = RoundLayout.bandBlockTop(
+                    band,
+                    _bandColumns.size(),
+                    _bandHeight,
+                    blockHeight,
+                    PAD,
+                    topCut,
+                    bottomCut
+                );
                 var span = spanFor(fullScreen, radius, top, top + blockHeight, cellLeft, cellRight);
 
                 _cellCentreX.add((span[0] + span[1]) / 2);
@@ -298,31 +305,120 @@ class RaceStatsView extends WatchUi.DataField {
         }
     }
 
-    //! Where the label+value block sits inside its band. Against the bezel it is
-    //! pushed away from it - down in the top band, up in the bottom one - leaving
-    //! the narrow crescent of the circle empty instead of drawing into it. That
-    //! crescent is exactly where the grid used to put its labels, which is why
-    //! they came out sliced on a watch.
-    //! @param band The band index
-    //! @param bandTop Top of the band, in slot coordinates
-    //! @param blockHeight Height of the label+value block
-    //! @param topCut Whether the bezel cuts the top of the slot
-    //! @param bottomCut Whether the bezel cuts the bottom of the slot
-    //! @return The y of the top of the block, in slot coordinates
-    private function blockTop(
-        band as Number,
-        bandTop as Number,
-        blockHeight as Number,
-        topCut as Boolean,
-        bottomCut as Boolean
+    //! The largest metric count, up to heightCap, whose two-column bands can all
+    //! show their captions. Single top and bottom bands may still go bare - the
+    //! native round layouts leave them so - so only the columned bands, where a
+    //! captioned cell beside a bare one looks broken, drive the reduction.
+    //! @param dc Device context
+    //! @param heightCap The count the band height already allows
+    //! @param width The slot width
+    //! @param height The slot height
+    //! @param fullScreen Whether the slot is the whole screen
+    //! @param radius The screen radius
+    //! @return The number of metrics to draw, at least one
+    private function captionedRoundMetrics(
+        dc as Dc,
+        heightCap as Number,
+        width as Number,
+        height as Number,
+        fullScreen as Boolean,
+        radius as Number
     ) as Number {
-        if (band == 0 && topCut) {
-            return bandTop + _bandHeight - blockHeight - PAD;
+        for (var n = heightCap; n > 1; n--) {
+            var bands = RoundLayout.bandColumns(n);
+            var bandHeight = height / bands.size();
+            var cell = 0;
+            var ok = true;
+            for (var band = 0; band < bands.size() && ok; band++) {
+                var columns = bands[band];
+                if (columns == 2) {
+                    for (var c = 0; c < 2; c++) {
+                        var cellLeft = (c * width) / columns;
+                        var cellRight = ((c + 1) * width) / columns;
+                        var labelWidth = dc.getTextDimensions(_labels[cell + c], _labelFont)[0];
+                        var plan = planCell(
+                            band,
+                            bands.size(),
+                            bandHeight,
+                            cellLeft,
+                            cellRight,
+                            labelWidth,
+                            fullScreen,
+                            radius
+                        );
+                        if (plan[1] == 0) {
+                            ok = false;
+                        }
+                    }
+                }
+                cell += columns;
+            }
+            if (ok) {
+                return n;
+            }
         }
-        if (band == _bandColumns.size() - 1 && bottomCut) {
-            return bandTop + PAD;
+        return 1;
+    }
+
+    //! Pick a cell's value font, and decide whether its caption fits. The biggest
+    //! value font whose block fits the band and stays within the chord wins; the
+    //! caption is then measured over its own strip (the top of the block), which
+    //! can be wider than the whole block's narrowest point when the value reaches
+    //! nearer the rim than the caption does.
+    //! @param band The band index
+    //! @param bandCount How many bands there are
+    //! @param bandHeight The height of one band
+    //! @param cellLeft Left edge of the cell
+    //! @param cellRight Right edge of the cell
+    //! @param labelWidth The measured caption width
+    //! @param fullScreen Whether the slot is the whole screen
+    //! @param radius The screen radius
+    //! @return [fontIndex, captionFits], captionFits being 1 or 0
+    private function planCell(
+        band as Number,
+        bandCount as Number,
+        bandHeight as Number,
+        cellLeft as Number,
+        cellRight as Number,
+        labelWidth as Number,
+        fullScreen as Boolean,
+        radius as Number
+    ) as Array<Number> {
+        for (var font = FONTS.size() - 1; font >= 0; font--) {
+            var blockHeight = _labelHeight + _valueHeights[font];
+            if (font > 0 && blockHeight > bandHeight - 2 * PAD) {
+                continue;
+            }
+            var top = RoundLayout.bandBlockTop(
+                band,
+                bandCount,
+                bandHeight,
+                blockHeight,
+                PAD,
+                _topCut,
+                _bottomCut
+            );
+            var valueRoom = usableWidth(
+                fullScreen,
+                radius,
+                top,
+                top + blockHeight,
+                cellLeft,
+                cellRight
+            );
+            if (font == 0 || _valueWidths[font] <= valueRoom) {
+                var labelRoom = usableWidth(
+                    fullScreen,
+                    radius,
+                    top,
+                    top + _labelHeight,
+                    cellLeft,
+                    cellRight
+                );
+                return [font, labelWidth <= labelRoom ? 1 : 0] as Array<Number>;
+            }
         }
-        return bandTop + (_bandHeight - blockHeight) / 2;
+        return [0, 0] as Array<Number>;
     }
 
     //! The part of a cell a text block spanning [top, bottom] can use.
@@ -381,8 +477,26 @@ class RaceStatsView extends WatchUi.DataField {
         cellLeft as Number,
         cellRight as Number
     ) as Number {
-        var span = spanFor(fullScreen, radius, top, bottom, cellLeft, cellRight);
-        var room = span[1] - span[0] - 2 * PAD;
+        // The chord clamp is inlined rather than calling spanFor: usableWidth sits
+        // on the deepest call chain in the app (the round row-fit reduction), and a
+        // data field has a shallow stack, so one fewer frame here avoids a stack
+        // overflow. spanFor keeps the same logic for the shallower drawing pass.
+        var left = cellLeft;
+        var right = cellRight;
+        if (fullScreen) {
+            var chord = RoundLayout.spanFor(radius, top, bottom);
+            if (chord[0] > left) {
+                left = chord[0];
+            }
+            if (chord[1] < right) {
+                right = chord[1];
+            }
+        } else {
+            var inset = ((cellRight - cellLeft) * (100 - RoundLayout.PARTIAL_WIDTH_PERCENT)) / 200;
+            left += inset;
+            right -= inset;
+        }
+        var room = right - left - 2 * PAD;
         if (room < 0) {
             return 0;
         }
