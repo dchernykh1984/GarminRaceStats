@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.6.1](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.6.0...garmin-race-stats-v0.6.1) (2026-07-15)
+
+
+### Bug Fixes
+
+* draw round screens in bands so the bezel cannot clip text ([fc50ae1](https://github.com/dchernykh1984/GarminRaceStats/commit/fc50ae1489006e22a54d231de908ca9c0d1f40e6))
+* drop round rows until every two-column band keeps its captions ([a5ea415](https://github.com/dchernykh1984/GarminRaceStats/commit/a5ea415349128dcd1ae9f7f3d7612f2bc7fe84f4))
+* keep round captions consistent and cap rows to those that fit ([d5c9aee](https://github.com/dchernykh1984/GarminRaceStats/commit/d5c9aee3c549877a98dc770c1587a3df53e7ed7c))
+
 ## [0.6.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.5.0...garmin-race-stats-v0.6.0) (2026-07-10)
 
 
