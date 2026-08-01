@@ -10,6 +10,6 @@
     },
     "devDependencies": {
         "@markw65/prettier-plugin-monkeyc": "1.0.69",
-        "prettier": "3.9.4"
+        "prettier": "3.9.6"
     }
 }
