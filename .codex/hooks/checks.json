@@ -1,0 +1,4 @@
+{
+  "files": "\\.(mc|ya?ml|md|json|xml|jungle|toml)$",
+  "exclude": "(^resources-|package-lock\\.json$|CHANGELOG\\.md$)"
+}

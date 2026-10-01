@@ -3,3 +3,7 @@ bin/
 tmp/
 package-lock.json
 CHANGELOG.md
+
+# Codex context follows the same formatting policy as Claude context.
+.agents/
+.codex/
