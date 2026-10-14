@@ -47,4 +47,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Okrążenia</string>
+    <string id="MetricGapPrevPackAbs">Odst gr prz</string>
+    <string id="MetricGapNextPackAbs">Odst gr tył</string>
+    <string id="MetricQtyPrevPackAbs">Licz gr prz</string>
+    <string id="MetricQtyNextPackAbs">Licz gr tył</string>
 </resources>

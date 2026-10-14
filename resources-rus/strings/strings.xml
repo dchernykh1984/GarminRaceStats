@@ -47,4 +47,8 @@
     <string id="MetricGapNextGroupDelta">Динам сз гр</string>
     <string id="MetricGapLeaderGroupDelta">Динам лд гр</string>
     <string id="MetricLaps">Круги</string>
+    <string id="MetricGapPrevPackAbs">Разрыв гр вп</string>
+    <string id="MetricGapNextPackAbs">Разрыв гр сз</string>
+    <string id="MetricQtyPrevPackAbs">Размер гр вп</string>
+    <string id="MetricQtyNextPackAbs">Размер гр сз</string>
 </resources>

@@ -32,6 +32,10 @@ module StatsFormatter {
             "gap_next_abs_delta",
             "gap_leader_abs_delta",
             "laps",
+            "gap_prev_pack_abs",
+            "gap_next_pack_abs",
+            "qty_prev_pack_abs",
+            "qty_next_pack_abs",
         ] as Array<String>;
 
     //! The metrics the rider can pick for a field, in the order the settings
@@ -55,6 +59,10 @@ module StatsFormatter {
             "gap_next_group_delta",
             "gap_leader_group_delta",
             "laps",
+            "gap_prev_pack_abs",
+            "gap_next_pack_abs",
+            "qty_prev_pack_abs",
+            "qty_next_pack_abs",
         ] as Array<String>;
 
     //! Default metric index (into METRICS); 0 == place_abs.
@@ -334,6 +342,10 @@ module StatsFormatter {
             "gap_next_group_delta" => Rez.Strings.MetricGapNextGroupDelta,
             "gap_leader_group_delta" => Rez.Strings.MetricGapLeaderGroupDelta,
             "laps" => Rez.Strings.MetricLaps,
+            "gap_prev_pack_abs" => Rez.Strings.MetricGapPrevPackAbs,
+            "gap_next_pack_abs" => Rez.Strings.MetricGapNextPackAbs,
+            "qty_prev_pack_abs" => Rez.Strings.MetricQtyPrevPackAbs,
+            "qty_next_pack_abs" => Rez.Strings.MetricQtyNextPackAbs,
         };
         return ids.get(metric) as Lang.ResourceId?;
     }

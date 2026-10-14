@@ -24,6 +24,14 @@ be added server-side without breaking older installs.
   `"3/7"`, `"DSQ"`), so the watch stays trivial. See the source and the design
   notes for the full data dictionary.
 
+Four optional metrics show the time gap and size of the distinct participant pack
+ahead and behind (`gap_prev_pack_abs`, `gap_next_pack_abs`, `qty_prev_pack_abs`,
+`qty_next_pack_abs`). FinishProtocolGenerator chains adjacent riders with at most
+10 seconds between each pair by default; its configurable threshold applies only
+to absolute statistics. Your own pack is skipped. Gaps use the nearest member of
+the neighbouring pack and the same signs and common-lap timing as rider gaps.
+Choose the new metrics in any row; missing neighbours show the usual placeholder.
+
 ## Repository layout
 
 ```
