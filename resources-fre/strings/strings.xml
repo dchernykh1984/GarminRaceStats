@@ -47,4 +47,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Tours</string>
+    <string id="MetricGapPrevPackAbs">Écart gr dev</string>
+    <string id="MetricGapNextPackAbs">Écart gr der</string>
+    <string id="MetricQtyPrevPackAbs">Taille gr av</string>
+    <string id="MetricQtyNextPackAbs">Taille gr ar</string>
 </resources>

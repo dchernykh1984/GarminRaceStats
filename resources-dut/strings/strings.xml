@@ -47,4 +47,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Ronden</string>
+    <string id="MetricGapPrevPackAbs">Afst gr voor</string>
+    <string id="MetricGapNextPackAbs">Afst gr acht</string>
+    <string id="MetricQtyPrevPackAbs">Aantal gr v</string>
+    <string id="MetricQtyNextPackAbs">Aantal gr a</string>
 </resources>

@@ -64,6 +64,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric2" title="@Strings.SettingRow2" prompt="@Strings.SettingMetricPrompt">
@@ -83,6 +87,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric3" title="@Strings.SettingRow3" prompt="@Strings.SettingMetricPrompt">
@@ -102,6 +110,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric4" title="@Strings.SettingRow4" prompt="@Strings.SettingMetricPrompt">
@@ -121,6 +133,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric5" title="@Strings.SettingRow5" prompt="@Strings.SettingMetricPrompt">
@@ -140,6 +156,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric6" title="@Strings.SettingRow6" prompt="@Strings.SettingMetricPrompt">
@@ -159,6 +179,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric7" title="@Strings.SettingRow7" prompt="@Strings.SettingMetricPrompt">
@@ -178,6 +202,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric8" title="@Strings.SettingRow8" prompt="@Strings.SettingMetricPrompt">
@@ -197,6 +225,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric9" title="@Strings.SettingRow9" prompt="@Strings.SettingMetricPrompt">
@@ -216,6 +248,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
         <setting propertyKey="@Properties.metric10" title="@Strings.SettingRow10" prompt="@Strings.SettingMetricPrompt">
@@ -235,6 +271,10 @@
                 <listEntry value="12">@Strings.MetricGapNextGroupDelta</listEntry>
                 <listEntry value="13">@Strings.MetricGapLeaderGroupDelta</listEntry>
                 <listEntry value="14">@Strings.MetricLaps</listEntry>
+                <listEntry value="15">@Strings.MetricGapPrevPackAbs</listEntry>
+                <listEntry value="16">@Strings.MetricGapNextPackAbs</listEntry>
+                <listEntry value="17">@Strings.MetricQtyPrevPackAbs</listEntry>
+                <listEntry value="18">@Strings.MetricQtyNextPackAbs</listEntry>
             </settingConfig>
         </setting>
     </settings>

@@ -257,3 +257,29 @@ function allMetricLabelsWithinTwelveChars(logger as Test.Logger) as Boolean {
     }
     return true;
 }
+
+//! New choices are appended and render opaque server values; no neighbour is blank.
+(:test)
+function neighbouringPackMetricsAreSelectableAndDisplayVerbatim(logger as Test.Logger) as Boolean {
+    var keys = ["gap_prev_pack_abs", "gap_next_pack_abs", "qty_prev_pack_abs", "qty_next_pack_abs"];
+    var values = ["+0:35.1", "-1:04.2", "100", "1"];
+    var stats =
+        ({
+            "gap_prev_pack_abs" => "+0:35.1",
+            "gap_next_pack_abs" => "-1:04.2",
+            "qty_prev_pack_abs" => "100",
+            "qty_next_pack_abs" => "1",
+        }) as Dictionary;
+    for (var i = 0; i < keys.size(); i++) {
+        if (
+            !StatsFormatter.metricForIndex(15 + i).equals(keys[i]) ||
+            !StatsFormatter.isKnownKey(keys[i]) ||
+            !StatsFormatter.displayOr(stats, keys[i]).equals(values[i]) ||
+            !StatsFormatter.displayOr(null, keys[i]).equals(StatsFormatter.NO_VALUE) ||
+            StatsFormatter.labelResourceId(keys[i]) == null
+        ) {
+            return false;
+        }
+    }
+    return StatsFormatter.metricForIndex(14).equals("laps");
+}

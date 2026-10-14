@@ -47,4 +47,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Vueltas</string>
+    <string id="MetricGapPrevPackAbs">Dif gr del</string>
+    <string id="MetricGapNextPackAbs">Dif gr det</string>
+    <string id="MetricQtyPrevPackAbs">Tam gr del</string>
+    <string id="MetricQtyNextPackAbs">Tam gr det</string>
 </resources>
