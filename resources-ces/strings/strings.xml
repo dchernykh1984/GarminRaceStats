@@ -47,8 +47,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Kola</string>
-    <string id="MetricGapPrevPackAbs">Odst sk vpř</string>
-    <string id="MetricGapNextPackAbs">Odst sk vzad</string>
-    <string id="MetricQtyPrevPackAbs">Počet sk vpř</string>
-    <string id="MetricQtyNextPackAbs">Počet sk vz</string>
+    <string id="MetricGapPrevPackAbs">Odst vpř bal</string>
+    <string id="MetricGapNextPackAbs">Odst vz bal</string>
+    <string id="MetricQtyPrevPackAbs">Poč vpř bal</string>
+    <string id="MetricQtyNextPackAbs">Poč vzad bal</string>
 </resources>
