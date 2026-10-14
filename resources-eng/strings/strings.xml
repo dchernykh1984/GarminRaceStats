@@ -48,8 +48,8 @@
     <string id="MetricGapNextGroupDelta">Dynam bh gr</string>
     <string id="MetricGapLeaderGroupDelta">Dynam ld gr</string>
     <string id="MetricLaps">Laps</string>
-    <string id="MetricGapPrevPackAbs">Grp gap ahd</string>
-    <string id="MetricGapNextPackAbs">Grp gap bhd</string>
-    <string id="MetricQtyPrevPackAbs">Grp size ahd</string>
-    <string id="MetricQtyNextPackAbs">Grp size bhd</string>
+    <string id="MetricGapPrevPackAbs">Gap ahd pack</string>
+    <string id="MetricGapNextPackAbs">Gap bhd pack</string>
+    <string id="MetricQtyPrevPackAbs">Size ahd pk</string>
+    <string id="MetricQtyNextPackAbs">Size bhd pk</string>
 </resources>
