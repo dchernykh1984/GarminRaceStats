@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.6.1...garmin-race-stats-v0.7.0) (2026-10-15)
+
+
+### Features
+
+* **stats:** display neighbouring participant pack gaps and sizes ([58978d0](https://github.com/dchernykh1984/GarminRaceStats/commit/58978d03ad13d158a9eebbfea0a1689b90b41a0c))
+
+
+### Bug Fixes
+
+* **i18n:** distinguish participant packs from classification groups ([f290e53](https://github.com/dchernykh1984/GarminRaceStats/commit/f290e536c1e57982928353bf83308b4a700642b0))
+
 ## [0.6.1](https://github.com/dchernykh1984/GarminRaceStats/compare/garmin-race-stats-v0.6.0...garmin-race-stats-v0.6.1) (2026-07-15)
 
 
